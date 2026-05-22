@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>EP 18 · Good Morning Gokuldham — Part 2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --black:       #060608;
+  --gold:        #f0c040;
+  --gold2:       #c9922a;
+  --gold-dim:    rgba(240,192,64,0.1);
+  --gold-line:   rgba(240,192,64,0.28);
+  --purple:      #b388ff;
+  --purple2:     #7c4dff;
+  --purple-dim:  rgba(179,136,255,0.08);
+  --purple-line: rgba(179,136,255,0.25);
+  --text:        #f0ece0;
+  --muted:       rgba(240,236,224,0.68);
+  --dim:         rgba(240,236,224,0.28);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body::after {
+  content:''; position:fixed; inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.035) 3px, rgba(0,0,0,0.035) 4px);
+  pointer-events:none; z-index:9999;
+}
+
+body::before {
+  content:''; position:fixed; inset:0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(179,136,255,0.05) 0%, transparent 55%),
+              radial-gradient(ellipse at 50% 100%, rgba(240,192,64,0.04) 0%, transparent 55%);
+  pointer-events:none; z-index:0;
+}
+
+#progress-bar {
+  position:fixed; top:0; left:0; right:0;
+  height:2px; background:rgba(240,192,64,0.1); z-index:8000;
+  display: none; /* Hidden until story starts */
+}
+#progress-fill {
+  height:100%; background:linear-gradient(to right, var(--purple2), var(--gold));
+  width:0%; transition:width 0.3s ease;
+}
+
+/* Gateway / Start Screen Styles */
+#gateway {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: var(--black);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+}
+
+#gateway.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gateway-panel {
+  max-width: 500px;
+  width: 100%;
+  padding: 3rem 2rem;
+  background: rgba(13, 11, 20, 0.7);
+  border: 1px solid var(--purple-line);
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 30px rgba(124,77,255,0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.gateway-panel::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 15%; right: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.gate-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.5em;
+  color: var(--purple);
+  text-transform: uppercase;
+  animation: pulseNeon 2s infinite ease-in-out;
+}
+
+@keyframes pulseNeon {
+  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 2px rgba(179,136,255,0.3)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 8px rgba(179,136,255,0.8)); }
+}
+
+.gate-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.2rem, 8vw, 3.5rem);
+  letter-spacing: 0.05em;
+  background: linear-gradient(180deg, #fff5cc 0%, #f0c040 40%, #c9922a 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 4px 12px rgba(240,192,64,0.15));
+  line-height: 1.1;
+  margin-bottom: 0.2rem;
+}
+
+.gate-subtitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: -0.5rem;
+}
+
+.start-btn {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 320px;
+  animation: actionGlow 2.5s infinite ease-in-out;
+}
+
+.start-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--gold2), var(--gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+  z-index: 0;
+}
+
+.start-btn:hover {
+  color: var(--black);
+  transform: translateY(-2px);
+}
+
+.start-btn:hover::before {
+  transform: scaleX(1);
+}
+
+.start-btn span {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.start-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+@keyframes actionGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(240,192,64,0); }
+  50% { box-shadow: 0 0 15px 2px rgba(240,192,64,0.25); }
+}
+
+.gate-notice {
+  font-size: 0.7rem;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+/* Story Layout (Hidden Initially) */
+#story {
+  max-width:740px;
+  margin:0 auto;
+  padding:5rem 1.5rem 8rem;
+  display: none; /* Flex when active */
+  flex-direction:column;
+  gap:1.8rem;
+  position:relative;
+  z-index:1;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+#story.visible {
+  display: flex;
+  opacity: 1;
+}
+
+.part-header { text-align:center; padding-bottom:1rem; }
+.part-tag {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.55rem; letter-spacing:0.45em;
+  color:var(--purple); text-transform:uppercase;
+  margin-bottom:0.6rem;
+}
+.part-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.6rem,5vw,2.8rem);
+  letter-spacing:0.08em;
+  background:linear-gradient(180deg,#fff5cc 0%,#f0c040 40%,#c9922a 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  filter:drop-shadow(0 2px 8px rgba(240,192,64,0.2));
+  line-height:1;
+}
+
+.divider {
+  display:flex; align-items:center; gap:0.8rem;
+}
+.divider .dl, .divider .dr { flex:1; height:1px; background:var(--gold-line); }
+.divider .dc {
+  font-size:0.58rem; color:var(--gold);
+  letter-spacing:0.25em; white-space:nowrap;
+  font-family:'Orbitron',sans-serif;
+}
+
+p {
+  font-size:clamp(0.95rem,2.2vw,1.1rem);
+  line-height:2;
+  color:var(--muted);
+  font-weight:400;
+}
+p b, p strong { color:var(--text); font-weight:700; }
+
+.dialogue {
+  border-left:2px solid var(--purple-line);
+  padding:0.7rem 1rem;
+  background:var(--purple-dim);
+  border-radius:0 2px 2px 0;
+}
+.dialogue .speaker {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.6rem;
+  letter-spacing:0.25em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+.dialogue .speaker .desc {
+  color: var(--text);
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.dialogue p {
+  font-size:clamp(0.92rem,2.1vw,1.05rem);
+  color:var(--text);
+  font-style:italic;
+  margin:0;
+}
+
+.img-card {
+  width:100%;
+  border-radius:3px;
+  overflow:hidden;
+  background:#0d0b14;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 12px 32px rgba(0,0,0,0.5), 0 24px 56px rgba(124,77,255,0.1);
+  border:1px solid var(--gold-line);
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+}
+.img-card:hover {
+  transform:translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7), 0 20px 48px rgba(0,0,0,0.6), 0 32px 72px rgba(124,77,255,0.15);
+}
+.img-card img {
+  width:100%; height:auto; display:block;
+  max-height:540px; object-fit:cover;
+}
+
+.continue-wrap {
+  display:flex; justify-content:center;
+  padding-top:2.5rem;
+  flex-direction:column;
+  align-items:center;
+  gap:0.8rem;
+}
+.continue-label {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.52rem;
+  letter-spacing:0.3em;
+  color:var(--dim);
+  text-transform:uppercase;
+}
+.end-btn {
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font-family:'Orbitron',sans-serif;
+  font-size:0.72rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  padding:14px 52px;
+  cursor:pointer;
+  transition:all 0.35s ease;
+  position:relative; overflow:hidden;
+}
+.end-btn::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,var(--gold2),var(--gold));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.35s ease; z-index:0;
+}
+.end-btn:hover { color:var(--black); }
+.end-btn:hover::before { transform:scaleX(1); }
+.end-btn span { position:relative; z-index:1; }
+.end-btn { animation:goldpulse 2.5s ease infinite; }
+@keyframes goldpulse {
+  0%,100%{ box-shadow:0 0 0 0 rgba(240,192,64,0); }
+  50%    { box-shadow:0 0 0 6px rgba(240,192,64,0.12); }
+}
+
+@media(max-width:500px){
+  #story { padding:4rem 1rem 7rem; }
+  .gateway-panel { padding:2.5rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Fullscreen Entry Gateway -->
+<div id="gateway">
+  <div class="gateway-panel">
+    <div class="gate-tag">🎬 Episode 18</div>
+    <div class="gate-title">Good Morning Gokuldham</div>
+    <div class="gate-subtitle">Part 2</div>
+    
+    <button id="start-story-btn" class="start-btn">
+      <span>
+        <svg viewBox="0 0 24 24">
+          <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+        </svg>
+        Start Story
+      </span>
+    </button>
+    
+    <div class="gate-notice">Recommended to view in Fullscreen mode</div>
+  </div>
+</div>
+
+<!-- Main Story (Initially hidden) -->
+<div id="story">
+
+  <div class="part-header">
+    <div class="part-tag">🎬 EPISODE 18</div>
+    <div class="part-title">Part 2</div>
+  </div>
+
+  <div class="divider">
+    <div class="dl"></div><div class="dc">✦ &nbsp; JETHALAL HOUSE &nbsp; ✦</div><div class="dr"></div>
+  </div>
+
+  <p>Jethalal ghar mein pareshan ho ke idhar-udhar dhund raha hota hai. Usne kal raat dukaan se laaye 10,000 rupaye kahin ghum kar diye thee. Daya kitchen mein bartan ke neeche, almari ke upar sab jagah dhund rahi hai thii</p>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/rKJdZmBm/Screenshot-2026-05-21-085736.png" alt="">
+  </div>
+
+  <p>rukmini ghar ke andar ghusne hi wali thi ki achanak jethalal bahar nikalte hue usse takra jata hai</p>
+
+  <p>rukmini ka naram, garam badan puri tarah se jethalal ke seene se lipat jata hai. uski badi-badi choochiyan jethalal ke solid chest par zor se ragad khati hain, rukmini ki saansein tez ho jaati hain, uske boobs upar-neeche hote hue jethalal ki shirt ko aur bhi zyada ragadte hain.</p>
+
+  <p>jethalal ekdum disturb ho jata hai. uska lund pant ke andar turant khada hone lagta hai. woh gusse mein chillata hai,</p>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/mCjdV3Lv/R2k-Ev.jpg" alt="">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Jetha</div>
+    <p>"aree kidhar jaana hain tuze ? ek baju ho na... nonsense.."</p>
+  </div>
+
+  <p>Rukmini sharmaati hui peeche hat jaati hai,</p>
+
+  <div class="dialogue">
+    <div class="speaker">Rukmini</div>
+    <p>"kya hua sahab aap pareshan lag rahe ho ??"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Jetha</div>
+    <p>"mere 10,000 gum ho gaye hain , tu bhi dhundne mein madat krde"</p>
+  </div>
+
+  <p>Rukmini bhi paise dhunde lagti hainn , aakhir kaar bedroom mein rukmini ko hee paise milte hain</p>
+
+  <div class="dialogue">
+    <div class="speaker">Rukmini</div>
+    <p>"haan yeh paise reh gaye the aap ki pant mein."</p>
+  </div>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/SDYrRZMK/Chat-GPT-Image-May-21-2026-12-39-24-PM.png" alt="">
+  </div>
+
+  <p>jethalal ko rahat ki saas milti hain ab hall mein sirf woh aur rukmini thii</p>
+
+  <div class="dialogue">
+    <div class="speaker">Jethalal (Rukmini ki taraf flirty andaaz mein)</div>
+    <p>"Rukmini, tune dhunde hain toh tu hi rakh de meri jeb mein... bahut dhoondh liya maine pr teri koshish rang laayi."</p>
+  </div>
+
+  <p>Rukmini muskurati hui aage badhti hai. Jethalal apni pant ki jeb khol deta hai. Jab Rukmani paise rakhne ke liye haath andar daalti hai, uska haath seedha Jethalal ke bade aur garam lund se takra jaata hai. Lund ka garam aur mota ehsaas uske haath mein puri tarah feel ho jaata hai.</p>
+
+  <p>Rukmini ki aankhein phail jaati hain. Woh phat se haath bahar nikaal leti hai aur thodi si sharmaati hui peeche hat jaati hai.</p>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/jvGCYP5f/Screenshot-2026-05-21-085929.png" alt="">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Rukmini (thoda sa ruk kar, aankhein jhuka ke)</div>
+    <p>"Sahab ji... yeh toh... bahut bada... packet hai aapki jeb mein." (uski awaaz mein chhupi hui samajh aur thodi si sharm hai)</p>
+  </div>
+
+  <p>Jethalal bhi muskurata hai, jaanta hai ki Rukmini samajh gayi hai.</p>
+
+  <p>Tabhi Daya kitchen se aati hai.</p>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Are Rukmini, mil gayee kyaa..?"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Rukmini</div>
+    <p>"Daya bhabhi, haan yeh paise reh gaye the sahab ji ki pant mein." (paise Daya ko dikhaati hai)</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Are wah mil gaye! Thank you Rukmini." iske liye baksheesh toh deni chahiye na Tapu ke papa!"</p>
+  </div>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/wZP8HbPh/Screenshot-2026-05-21-091423.png" alt="">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Jethalal (flirty smile ke saath, Rukmini ki taraf dekhte hue)</div>
+    <p>"Haan... baksheesh toh deni chahiye. Bol Rukmini, kya chahiye? Sirf paise ki baksheesh chahiye... ya kuch aur bhi?" (uski awaaz mein double meaning saaf thii)</p>
+  </div>
+
+  <p>Rukmini samajh jaati hai Jethalal ke intentions. Woh thodi si sharmaati hai par Daya ke saamne kuch nahi bolti. Sirf ek chhoti si naughty smile deti hai aur halke se sar hilati hai.</p>
+
+  <div class="dialogue">
+    <div class="speaker">Rukmini</div>
+    <p>"Bas sahab ji... das rupaye hi de dijiye. Kaafi hai."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Are kam se kam sau rupaye toh dijiye na!"</p>
+  </div>
+
+  <p>Jethalal ₹100 deta hai. Rukmani paise leti hai aur andar jaate waqt ek baar phir Jethalal ki taraf dekhti hai — aankhon hi aankhon mein ek chhupi hui flirty vibe ke saath.</p>
+
+  <p>Daya ko kuch pata nahi chalta.</p>
+
+  <div class="divider">
+    <div class="dl"></div><div class="dc">✦ &nbsp; TO BE CONTINUED &nbsp; ✦</div><div class="dr"></div>
+  </div>
+
+  <div class="continue-wrap">
+    <div class="continue-label">Story continues in the next part</div>
+    <button class="end-btn" onclick="goToNextPart()">
+      <span>Next Part &nbsp; →</span>
+    </button>
+  </div>
+
+</div>
+
+<script>
+  // Progress Bar tracking
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop;
+    const total = doc.scrollHeight - doc.clientHeight;
+    const pct = total > 0 ? (scrolled / total) * 100 : 0;
+    const progressFill = document.getElementById('progress-fill');
+    if (progressFill) progressFill.style.width = pct + '%';
+  });
+
+  // Next Part navigation
+  function goToNextPart() {
+    document.body.style.transition = 'opacity 0.5s ease';
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+      window.location.href = 'https://tmkocepisodesdf.github.io/tmkoc-erotic/part3.html';
+    }, 500);
+  }
+
+  // Gateway and Fullscreen Initiation Logic
+  const startBtn = document.getElementById('start-story-btn');
+  const gateway = document.getElementById('gateway');
+  const story = document.getElementById('story');
+  const progressBar = document.getElementById('progress-bar');
+
+  startBtn.addEventListener('click', () => {
+    // Attempt Fullscreen across all major engines
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.warn("Fullscreen request rejected by system:", err);
+      });
+    } else if (document.documentElement.webkitRequestFullscreen) { /* Safari / iOS */
+      document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { /* IE11 */
+      document.documentElement.msRequestFullscreen();
+    }
+
+    // Hide the Welcome Screen overlay and make the story active
+    gateway.classList.add('fade-out');
+    progressBar.style.display = 'block';
+    story.classList.add('visible');
+    
+    window.scrollTo({ top: 0 });
+  });
+</script>
+</body>
+</html>
