@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>EP 18 · Good Morning Gokuldham — Part 3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --black:       #060608;
+  --gold:        #f0c040;
+  --gold2:       #c9922a;
+  --gold-dim:    rgba(240,192,64,0.1);
+  --gold-line:   rgba(240,192,64,0.28);
+  --purple:      #b388ff;
+  --purple2:     #7c4dff;
+  --purple-dim:  rgba(179,136,255,0.08);
+  --purple-line: rgba(179,136,255,0.25);
+  --text:        #f0ece0;
+  --muted:       rgba(240,236,224,0.68);
+  --dim:         rgba(240,236,224,0.28);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+}
+
+body::after {
+  content:''; position:fixed; inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.035) 3px, rgba(0,0,0,0.035) 4px);
+  pointer-events:none; z-index:9999;
+}
+
+body::before {
+  content:''; position:fixed; inset:0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(179,136,255,0.05) 0%, transparent 55%),
+              radial-gradient(ellipse at 50% 100%, rgba(240,192,64,0.04) 0%, transparent 55%);
+  pointer-events:none; z-index:0;
+}
+
+#progress-bar {
+  position:fixed; top:0; left:0; right:0;
+  height:2px; background:rgba(240,192,64,0.1); z-index:8000;
+}
+#progress-fill {
+  height:100%; background:linear-gradient(to right, var(--purple2), var(--gold));
+  width:0%; transition:width 0.3s ease;
+}
+
+#story {
+  max-width:740px;
+  margin:0 auto;
+  padding:5rem 1.5rem 8rem;
+  display:flex;
+  flex-direction:column;
+  gap:1.8rem;
+  position:relative;
+  z-index:1;
+}
+
+.part-header { text-align:center; padding-bottom:1rem; }
+.part-tag {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.55rem; letter-spacing:0.45em;
+  color:var(--purple); text-transform:uppercase;
+  margin-bottom:0.6rem;
+}
+.part-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.6rem,5vw,2.8rem);
+  letter-spacing:0.08em;
+  background:linear-gradient(180deg,#fff5cc 0%,#f0c040 40%,#c9922a 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  filter:drop-shadow(0 2px 8px rgba(240,192,64,0.2));
+  line-height:1;
+}
+
+.divider {
+  display:flex; align-items:center; gap:0.8rem;
+}
+.divider .dl, .divider .dr { flex:1; height:1px; background:var(--gold-line); }
+.divider .dc {
+  font-size:0.58rem; color:var(--gold);
+  letter-spacing:0.25em; white-space:nowrap;
+  font-family:'Orbitron',sans-serif;
+}
+
+p {
+  font-size:clamp(0.95rem,2.2vw,1.1rem);
+  line-height:2;
+  color:var(--muted);
+  font-weight:400;
+}
+p b, p strong { color:var(--text); font-weight:700; }
+
+.dialogue {
+  border-left:2px solid var(--purple-line);
+  padding:0.7rem 1rem;
+  background:var(--purple-dim);
+  border-radius:0 2px 2px 0;
+}
+.dialogue .speaker {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.6rem;
+  letter-spacing:0.25em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+.dialogue .speaker .desc {
+  color: var(--text);
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.dialogue p {
+  font-size:clamp(0.92rem,2.1vw,1.05rem);
+  color:var(--text);
+  font-style:italic;
+  margin:0;
+}
+
+.img-card {
+  width:100%;
+  border-radius:3px;
+  overflow:hidden;
+  background:#0d0b14;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 12px 32px rgba(0,0,0,0.5), 0 24px 56px rgba(124,77,255,0.1);
+  border:1px solid var(--gold-line);
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+}
+.img-card:hover {
+  transform:translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7), 0 20px 48px rgba(0,0,0,0.6), 0 32px 72px rgba(124,77,255,0.15);
+}
+.img-card img {
+  width:100%; height:auto; display:block;
+  max-height:540px; object-fit:cover;
+}
+
+.continue-wrap {
+  display:flex; justify-content:center;
+  padding-top:2.5rem;
+  flex-direction:column;
+  align-items:center;
+  gap:0.8rem;
+}
+.continue-label {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.52rem;
+  letter-spacing:0.3em;
+  color:var(--dim);
+  text-transform:uppercase;
+}
+.end-btn {
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font-family:'Orbitron',sans-serif;
+  font-size:0.72rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  padding:14px 52px;
+  cursor:pointer;
+  transition:all 0.35s ease;
+  position:relative; overflow:hidden;
+}
+.end-btn::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,var(--gold2),var(--gold));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.35s ease; z-index:0;
+}
+.end-btn:hover { color:var(--black); }
+.end-btn:hover::before { transform:scaleX(1); }
+.end-btn span { position:relative; z-index:1; }
+.end-btn { animation:goldpulse 2.5s ease infinite; }
+@keyframes goldpulse {
+  0%,100%{ box-shadow:0 0 0 0 rgba(240,192,64,0); }
+  50%    { box-shadow:0 0 0 6px rgba(240,192,64,0.12); }
+}
+
+@media(max-width:500px){
+  #story { padding:4rem 1rem 7rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<div id="story">
+
+  <div class="part-header">
+    <div class="part-tag">🎬 EPISODE 18</div>
+    <div class="part-title">Part 3</div>
+  </div>
+
+  <div class="divider">
+    <div class="dl"></div><div class="dc">✦ &nbsp; MEHTA HOUSE 🏡 &nbsp; ✦</div><div class="dr"></div>
+  </div>
+
+  <p>Mehta ghar mein Taarak akela baitha hai. Anjali abhi mayke mein hai. Rukmini ghar ke kaam kar rahi hai. Aaj usne apni saree ko thoda tight aur neeche baandha hai. Jab woh jhaadu laga rahi hoti hai, uske bade-bade boobs saamne ki taraf jhuk jaate hain. Blouse ka gala itna deep hai ki uski deep cleavage aur chest ki line andar tak saaf dikhai de rahi hai. Paseene ki boondein uski skin par chamak rahi hain.</p>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/dw9cxzzW/Screenshot-2026-05-21-090342.png" alt="">
+  </div>
+
+  <p>Taarak sofa par baitha usko upar se neeche tak ghoor raha hai. Uski nazrein Rukmini ke ubhre boobs, kamar ki curve aur jab woh jhukti hai toh uski moti gaand par atak jaati hain. Rukmini ko pata hai ki Taarak dekh raha hai, phir bhi woh jaan-bujh kar thoda slow aur seductive andaaz mein kaam karti hai.</p>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/svSZXby2/photo-2026-05-21-08-01-51.jpg" alt="">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Taarak</div>
+    <p>"Rukmini, jab se Anjali gayi hai na tab se bhabhi ne mere pet pooja ka aur tumne ghar ka bohot acchi tarah se khayal rakha hai."</p>
+  </div>
+
+  <p>Rukmini neeche jhuk kar jhaadu laga rahi hoti hai. Uske boobs itne zor se dab rahe hain ki blouse ke button par pressure pad raha hai. Taarak ki aankhein wahi atak jaati hain.</p>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/LXdz3QB2/VID-20260520-002856-ezgif-com-video-to-gif-converter.gif" alt="">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Rukmini</div>
+    <p>"Are sahab ji, kaam hi toh meri rozi-roti hai, kaam hi toh meri pooja hai." (Woh bolte hue pocha lagane ke liye aur jhukti hai. Uske hips hilte hain aur saree ki fold mein uski kamar ki nangi skin dikhai deti hai) "Kaam nahin karungi toh hamara ghar kaise chalega aur hamara ghar bhi..."</p>
+  </div>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/2Y1YSCdf/VID-20260520-003940-ezgif-com-video-to-gif-converter.gif" alt="">
+  </div>
+
+  <p>Taarak apni seat par thoda sa hilta hai. Uska lund pant ke andar dheere-dheere khada ho raha hai. Woh Rukmini ke har movement ko upar se neeche tak scan kar raha hai — boobs ki bouncing, cleavage ki gehraai aur gaand ki hilti harkatein.</p>
+
+  <div class="dialogue">
+    <div class="speaker">Rukmini</div>
+    <p>"Wo kehte hai na sahab ji, kaam ka na kaaj ka, dushman anaaj ka. Yeh kahavaht khair chhoro, ." (Woh muskurate hue Taarak ki taraf dekhti hai aur apna pallu thoda adjust karti hai, jo aur slip ho jaata hai)</p>
+  </div>
+
+  <p>Woh floor saaf karte waqt ghutno ke bal baith jaati hai. Is position mein uski saree upar chadh jaati hai aur Taarak ko uski smooth taangein aur thighs ka beautiful view mil jaata hai.</p>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/HDH5F78S/photo-2026-05-21-08-02-33.jpg" alt="">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Taarak</div>
+    <p>"Tum Gokuldham Society ki auraton ki reedh ki haddi ho. Tum agar kaam chhor do toh sab ki sab apahij ho jaaye." (Nazrein Rukmini ke cleavage mein ghusi hui)</p>
+  </div>
+
+  <p>pura time Taarak Rukmini ko bhookhi nazron se ghoorta rehta hai aur Rukmini bhi jaan-bujh kar apne body ko showcase karti hai, lekin openly kuch nahi bolti. Halki si flirty aur sensual tension pura ghar bhar deti hai.</p>
+
+  <div class="divider">
+    <div class="dl"></div><div class="dc">✦ &nbsp; TO BE CONTINUED &nbsp; ✦</div><div class="dr"></div>
+  </div>
+
+  <div class="continue-wrap">
+    <div class="continue-label">Story continues in the next part</div>
+    <button class="end-btn" onclick="goToNextPart()">
+      <span>Next Part &nbsp; →</span>
+    </button>
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop;
+    const total = doc.scrollHeight - doc.clientHeight;
+    const pct = total > 0 ? (scrolled / total) * 100 : 0;
+    document.getElementById('progress-fill').style.width = pct + '%';
+  });
+
+  function goToNextPart() {
+    document.body.style.transition = 'opacity 0.5s ease';
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+      window.location.href = 'https://tmkocepisodesdf.github.io/tmkoc-erotic/part4.html';
+    }, 500);
+  }
+</script>
+</body>
+</html>
