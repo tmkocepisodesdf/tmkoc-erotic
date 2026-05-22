@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>EP 18 · Good Morning Gokuldham — Part 6</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --black:       #060608;
+  --gold:        #f0c040;
+  --gold2:       #c9922a;
+  --gold-dim:    rgba(240,192,64,0.1);
+  --gold-line:   rgba(240,192,64,0.28);
+  --purple:      #b388ff;
+  --purple2:     #7c4dff;
+  --purple-dim:  rgba(179,136,255,0.08);
+  --purple-line: rgba(179,136,255,0.25);
+  --text:        #f0ece0;
+  --muted:       rgba(240,236,224,0.68);
+  --dim:         rgba(240,236,224,0.28);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+}
+
+body::after {
+  content:''; position:fixed; inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.035) 3px, rgba(0,0,0,0.035) 4px);
+  pointer-events:none; z-index:9999;
+}
+
+body::before {
+  content:''; position:fixed; inset:0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(179,136,255,0.05) 0%, transparent 55%),
+              radial-gradient(ellipse at 50% 100%, rgba(240,192,64,0.04) 0%, transparent 55%);
+  pointer-events:none; z-index:0;
+}
+
+#progress-bar {
+  position:fixed; top:0; left:0; right:0;
+  height:2px; background:rgba(240,192,64,0.1); z-index:8000;
+}
+#progress-fill {
+  height:100%; background:linear-gradient(to right, var(--purple2), var(--gold));
+  width:0%; transition:width 0.3s ease;
+}
+
+#story {
+  max-width:740px;
+  margin:0 auto;
+  padding:5rem 1.5rem 8rem;
+  display:flex;
+  flex-direction:column;
+  gap:1.8rem;
+  position:relative;
+  z-index:1;
+}
+
+.part-header { text-align:center; padding-bottom:1rem; }
+.part-tag {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.55rem; letter-spacing:0.45em;
+  color:var(--purple); text-transform:uppercase;
+  margin-bottom:0.6rem;
+}
+.part-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.6rem,5vw,2.8rem);
+  letter-spacing:0.08em;
+  background:linear-gradient(180deg,#fff5cc 0%,#f0c040 40%,#c9922a 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  filter:drop-shadow(0 2px 8px rgba(240,192,64,0.2));
+  line-height:1;
+}
+
+.divider {
+  display:flex; align-items:center; gap:0.8rem;
+}
+.divider .dl, .divider .dr { flex:1; height:1px; background:var(--gold-line); }
+.divider .dc {
+  font-size:0.58rem; color:var(--gold);
+  letter-spacing:0.25em; white-space:nowrap;
+  font-family:'Orbitron',sans-serif;
+}
+.divider.purple .dl, .divider.purple .dr { background:var(--purple-line); }
+.divider.purple .dc { color:var(--purple); }
+
+.scene-headline {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.2rem,4vw,1.8rem);
+  letter-spacing:0.1em;
+  background:linear-gradient(90deg,#f0c040,#c9922a);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  border-left:3px solid var(--gold);
+  padding-left:0.8rem;
+  margin-top:0.5rem;
+}
+
+p {
+  font-size:clamp(0.95rem,2.2vw,1.1rem);
+  line-height:2;
+  color:var(--muted);
+  font-weight:400;
+}
+p b, p strong { color:var(--text); font-weight:700; }
+
+.dialogue {
+  border-left:2px solid var(--purple-line);
+  padding:0.7rem 1rem;
+  background:var(--purple-dim);
+  border-radius:0 2px 2px 0;
+}
+.dialogue .speaker {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.6rem;
+  letter-spacing:0.25em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+.dialogue p {
+  font-size:clamp(0.92rem,2.1vw,1.05rem);
+  color:var(--text);
+  font-style:italic;
+  margin:0;
+}
+
+.img-card {
+  width:100%;
+  border-radius:3px;
+  overflow:hidden;
+  background:#0d0b14;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 12px 32px rgba(0,0,0,0.5), 0 24px 56px rgba(124,77,255,0.1);
+  border:1px solid var(--gold-line);
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+}
+.img-card:hover {
+  transform:translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7), 0 20px 48px rgba(0,0,0,0.6), 0 32px 72px rgba(124,77,255,0.15);
+}
+.img-card img {
+  width:100%; height:auto; display:block;
+  max-height:540px; object-fit:cover;
+}
+
+.continue-wrap {
+  display:flex; justify-content:center;
+  padding-top:2.5rem;
+  flex-direction:column;
+  align-items:center;
+  gap:0.8rem;
+}
+.continue-label {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.52rem;
+  letter-spacing:0.3em;
+  color:var(--dim);
+  text-transform:uppercase;
+}
+.end-btn {
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font-family:'Orbitron',sans-serif;
+  font-size:0.72rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  padding:14px 52px;
+  cursor:pointer;
+  transition:all 0.35s ease;
+  position:relative; overflow:hidden;
+}
+.end-btn::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,var(--gold2),var(--gold));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.35s ease; z-index:0;
+}
+.end-btn:hover { color:var(--black); }
+.end-btn:hover::before { transform:scaleX(1); }
+.end-btn span { position:relative; z-index:1; }
+.end-btn { animation:goldpulse 2.5s ease infinite; }
+@keyframes goldpulse {
+  0%,100%{ box-shadow:0 0 0 0 rgba(240,192,64,0); }
+  50%    { box-shadow:0 0 0 6px rgba(240,192,64,0.12); }
+}
+
+@media(max-width:500px){
+  #story { padding:4rem 1rem 7rem; }
+  .dialogue { padding:0.5rem 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<div id="story">
+
+  <div class="part-header">
+    <div class="part-tag">🎬 EPISODE 18</div>
+    <div class="part-title">Part 6</div>
+  </div>
+
+  <div class="divider">
+    <div class="dl"></div><div class="dc">✦ &nbsp; STORY CONTINUES &nbsp; ✦</div><div class="dr"></div>
+  </div>
+
+  <div class="scene-headline">AFTER TWO DAYS</div>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Hello? Haan, haan... boliyee, mein neeche aa rahi hoon, thik hai,Hai maa mata ji."</p>
+  </div>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/fGdDNf5d/Screenshot-2026-05-22-100422.png" alt="">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Anjali</div>
+    <p>"Par Daya bhabhi kahan hain?"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Babita</div>
+    <p>"Are suniye, yeh dekho aa gai."</p>
+  </div>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/2YLncmBP/Screenshot-2026-05-22-100513.png" alt="">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Madhavi bhabhi ko zara neeche bhejiye na."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Bhide</div>
+    <p>"Haan, wo-wo aa rahi hai, neeche hi aa rahi hai Madhavi, neeche aa rahi hai."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Komal</div>
+    <p>"Are aa gaye? Kya-kya hua? Kya, par abhi Daya bhabhi, yeh toh batao hum sabko phone karke yahan pe kyun bulaya?"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Maine phone karke aap logon ko isliye bulaya hai kyunki hum... hamein kaamwali bai mil gai hai!"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Madhavi</div>
+    <p>"Sacci, Daya behen? Yeh toh duniya ki sabse badi khushkhabri hai bilkul!"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Babita</div>
+    <p>"Are par kab aayegi? Kab aane wali hai?"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Bas aati hogi."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Anjali</div>
+    <p>"Are lekin Daya behen, kaise mili, kahan mili aapko?"</p>
+  </div>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/0yC27SLP/Screenshot-2026-05-22-100556.png" alt="">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Yeh toh secret hai!"</p>
+  </div>
+
+  <p>(Natu Kaka scooter par aate dikhe. Unke aage ek modern ladki baithi thi. Jab scooter ruka, woh utri.)</p>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Are Natu Kaka! Kaka, kaamwali bai kahan hai?"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Nattu Kaka</div>
+    <p>"Haan, yahin toh hai. Lovely!"</p>
+  </div>
+
+  <p>saari bhabhiyaan ek saath shock ho gayi. Unke muh khule ke khule reh gaye.</p>
+
+  <p>Lovely ekdam modern kaamwali bai thi. Uski umar lagbhag 28-30 saal thi. Woh ek tight short skirt pehne hui thi jo uski smooth aur gol taangon ko khub khul kar dikha rahi thi. Upar ek cropped tight top tha jisme uske bade aur tight boobs ka shape saaf dikhai de raha tha. Lambe baal khule hue the, makeup perfect tha aur uske hothon par ek seductive smile thi. Bilkul filmi aur modern look thi uska — traditional saree-bindi wali bai nahi, balki ek fashionable, confident aur attractive aurat.</p>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/rf2fH69c/VID-20260522-103332-ezgif-com-video-to-gif-converter.gif" alt="">
+  </div>
+
+  <p>sabhi bhabhi mann mein sochne lagii !!!</p>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Arre... ! Yeh bai hai ya model?"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Madhavi</div>
+    <p>"Arre itni chhoti skirt mein kaam karegi? Uski taangein toh poori dikhai de rahi hain!"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Anjali</div>
+    <p>"Oh my god! Yeh toh bahut modern hai. Rukmini jaisi nahi... yeh toh kuch aur hi level ki hai."</p>
+  </div>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/ycQqdjgF/Screenshot-2026-05-22-101013.png" alt="">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Babita</div>
+    <p>"Dekho dekho... top kitna tight hai. Uski choochiyaan toh bilkul ubhar ke bahar aane ko taiyaar hain. Aise kaam karegi yeh?"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Komal</div>
+    <p>"Arre wah! Hum log toh soch rahe the normal bai aayegi... yeh toh item number lag rahi hai compound mein!"</p>
+  </div>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/PZNwM81c/Screenshot-2026-05-22-101116.png" alt="">
+  </div>
+
+  <p>Lovely ne sabko dekha, ekdum confident smile diya aur apni gaand ko thoda sa hilate hue aage badhi.</p>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Hello everyone! Main Lovely. Aap sabki nayi maid hoon. Tension mat lo... main sab kuch sambhal lungi. Bahut achhe se."</p>
+  </div>
+
+  <p>Uski awaaz mein bhi ek alag si mithaas aur naughtiness thi. Saari bhabhiyaan ek dusre ko dekhti rahi, unke chehre par shock, hairani aur thodi si curiosity saaf dikhai de rahi thi.</p>
+
+  <div class="img-card">
+    <img src="https://i.ibb.co/8D51Lbpy/Screenshot-2026-05-22-101215.png" alt="">
+  </div>
+
+
+  <p>Lovely (Thinking) : "Inko toh meri bohot garz lagti hai, Lovely, utha le is mauke ka fayda"</p>
+
+  <div class="scene-headline">Gada House 🏡</div>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"aaiye aaiye... aap apna hi ghar samajhiye. Arre ab khade kyun ho, baitho na bai."</p>
+  </div>
+
+<div class="img-card">
+    <img src="https://i.ibb.co/sv86wKVt/Screenshot-2026-05-22-101320.png" alt="">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Excuse me, hamko bai mat bolne ka. Hamko 'Lovely Maid' bolne ka... aur main bahut lovely tarike se maid ka kaam karti hoon."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Natu Kaka</div>
+    <p>"Arreji mein toh 'mad' ko pagal kehte hain na? Toh Lovely, tu apne aap ko pagal kaiko bolti hai?"</p>
+  </div>
+
+
+  <div class="dialogue">
+    <div class="speaker">Anjali</div>
+    <p>"Natu Kaka, English mein 'maid' matlab kaamwali bai, naukrani."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Natu Kaka</div>
+    <p>"Accha-accha ab samajh gaya. Dekho Lovely, tumko chhe ghar mein kaam karna hai, okay?"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Okay, magar hum ek kaam ka paanch sau (500) lega."</p>
+  </div>
+
+<div class="img-card">
+    <img src="https://i.ibb.co/FbSkrG0Y/Screenshot-2026-05-22-101501.png" alt="">
+  </div>
+
+
+  <div class="dialogue">
+    <div class="speaker">Natu Kaka</div>
+    <p>"Lekin Natu Kaka ko toh tumne char sau pachas (450) kaha tha?"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Sunne mein mistake hua hoga, baki hum jhooth nahin bolta. Main apna maal bahut tight rakhti hoon."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Madhavi</div>
+    <p>"Arre lekin hamari pehli wali bai toh teen sau (300) hi leti thi."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Haan wahi toh! Dekho madam, usmein aur hamare mein bahut difference hai. Hum acche kapde pehenti hoon, tight wale, mobile hai, English mein baat karti hoon. In sab cheezon se aap logon ko bahut fayda hoga."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Anjali</div>
+    <p>"Dekho Lovely, ek kaam ke paanch sau thode zyada hote hain."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Aap logon ko parwata hai toh thik hai, warna Juhu mein do-teen accha offer hai hamare paas... wahan wale mujhe raat ko bhi full service karne ko bolte hain, kya!"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Madhavi</div>
+    <p>"Arre are nahin nahin, baitho-baitho na baitho-baitho. Mujhe chalega."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Komal</div>
+    <p>"Are mere ko bhi chalega, mujhe bhi chalega, haan mujhe bhi chalega."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Babita</div>
+    <p>"Haan thik hai, mere ghar pe sirf bartan hi karna... lekin andar tak achhe se saaf karna, okay."</p>
+  </div>
+
+  <p>Lovely: "Haan toh bhabhi log, yeh hai hamara terms and conditions: Condition: Ek mahine ki pagar advance, safe waaste agar baad mein kitkit kiya toh. Sunday ko chhutti, yes! Hafte mein ek din rest toh maangta hai na? My goodness, haan. Yeh dekho, guest allowance extra of course. Glass crockery wash at owner's risk, yes!"</p>
+
+<div class="img-card">
+    <img src="https://i.ibb.co/RpHt70zy/Screenshot-2026-05-22-101654.png" alt="">
+  </div>
+
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Okay, toh ab hum chalta hai, bye!"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Ek minute, chalta kidhar hai? Aaj se kaam join nahin karogi?"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Nahin, hamara astrologer hamko bola ki kal ka muhurat bahut accha hai... isliye hum kal se full charge leke aayenge, bye!"</p>
+  </div>
+
+  <p>Madhavi: "Bohot zyada maath hai haan."</p>
+  <p>Daya: "Matlab zyada hoshiyar?"</p>
+  <p>Madhavi: "Haan, matlab dedh-shyaani hai."</p>
+
+  <div class="dialogue">
+    <div class="speaker">Anjali</div>
+    <p>"Are par jo bhi ho, hamko acchi bai toh mil gayi hai... ab se hamare pati dev bhi khush rahenge."</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Haan bolo... Hamare liye ek khushkhabri hai! hamein kaamwali bai mil gai hai!"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Jethalal</div>
+    <p>"Kya? Kaamwali bai mil gai, haan? Are wah Daya, yeh toh waqai mein khushkhabri hai! Kon laya hamari zindagi mein yeh khushi, kon laya?"</p>
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Daya</div>
+    <p>"Daya, Natu Kaka! Aur kaamwali bai ka naam hai Lovely, aur wo dono hai na fatfatiya mein aaye the."</p>
+  </div>
+
+  <p>(daya poora kisska jetha ko bata deti hain jetha ab lovely ko dekhne ko bahut taras rahaa thaa)</p>
+
+  <div class="dialogue">
+    <div class="speaker">Jethalal</div>
+    <p>"Bas-bas-bas Daya, Wah, zindagi mein pehli baar Natu Kaka ne mere liye koi accha kaam kiya!"</p>
+  </div>
+
+ <div class="img-card">
+    <img src="https://i.ibb.co/VpHwwgXr/Screenshot-2026-05-22-101908.png" alt="">
+  </div>
+
+  <p>jetha lovely ko dekhne ko excited thaa...!!!!!</p>
+
+  <div class="divider">
+    <div class="dl"></div><div class="dc">✦ &nbsp; TO BE CONTINUED &nbsp; ✦</div><div class="dr"></div>
+  </div>
+
+  <div class="continue-wrap">
+    <div class="continue-label">Story continues in the next part</div>
+    <button class="end-btn" onclick="goToNextPart()">
+      <span>Next Part &nbsp; →</span>
+    </button>
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop;
+    const total = doc.scrollHeight - doc.clientHeight;
+    const pct = total > 0 ? (scrolled / total) * 100 : 0;
+    document.getElementById('progress-fill').style.width = pct + '%';
+  });
+
+  function goToNextPart() {
+    document.body.style.transition = 'opacity 0.5s ease';
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+      window.location.href = 'https://tmkocepisodesdf.github.io/tmkoc-erotic/part7.html';
+    }, 500);
+  }
+</script>
+</body>
+</html>
