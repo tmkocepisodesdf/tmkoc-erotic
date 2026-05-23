@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>EP 18 · Good Morning Gokuldham — Part 8</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --black:       #060608;
+  --gold:        #f0c040;
+  --gold2:       #c9922a;
+  --gold-dim:    rgba(240,192,64,0.1);
+  --gold-line:   rgba(240,192,64,0.28);
+  --purple:      #b388ff;
+  --purple2:     #7c4dff;
+  --purple-dim:  rgba(179,136,255,0.08);
+  --purple-line: rgba(179,136,255,0.25);
+  --text:        #f0ece0;
+  --muted:       rgba(240,236,224,0.68);
+  --dim:         rgba(240,236,224,0.28);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body::after {
+  content:''; position:fixed; inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.035) 3px, rgba(0,0,0,0.035) 4px);
+  pointer-events:none; z-index:9999;
+}
+
+body::before {
+  content:''; position:fixed; inset:0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(179,136,255,0.05) 0%, transparent 55%),
+              radial-gradient(ellipse at 50% 100%, rgba(240,192,64,0.04) 0%, transparent 55%);
+  pointer-events:none; z-index:0;
+}
+
+#progress-bar {
+  position:fixed; top:0; left:0; right:0;
+  height:2px; background:rgba(240,192,64,0.1); z-index:8000;
+  display: none;
+}
+#progress-fill {
+  height:100%; background:linear-gradient(to right, var(--purple2), var(--gold));
+  width:0%; transition:width 0.3s ease;
+}
+
+#gateway {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: var(--black);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+}
+
+#gateway.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gateway-panel {
+  max-width: 500px;
+  width: 100%;
+  padding: 3rem 2rem;
+  background: rgba(13, 11, 20, 0.7);
+  border: 1px solid var(--purple-line);
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 30px rgba(124,77,255,0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.gateway-panel::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 15%; right: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.gate-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.5em;
+  color: var(--purple);
+  text-transform: uppercase;
+  animation: pulseNeon 2s infinite ease-in-out;
+}
+
+@keyframes pulseNeon {
+  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 2px rgba(179,136,255,0.3)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 8px rgba(179,136,255,0.8)); }
+}
+
+.gate-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.2rem, 8vw, 3.5rem);
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  margin-bottom: 0.2rem;
+  filter: drop-shadow(0 4px 12px rgba(240,192,64,0.15));
+}
+
+.gate-gradient {
+  background: linear-gradient(180deg, #fff5cc 0%, #f0c040 40%, #c9922a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.gate-subtitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: -0.5rem;
+}
+
+.start-btn {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 320px;
+  animation: actionGlow 2.5s infinite ease-in-out;
+}
+
+.start-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--gold2), var(--gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+  z-index: 0;
+}
+
+.start-btn:hover {
+  color: var(--black);
+  transform: translateY(-2px);
+}
+
+.start-btn:hover::before {
+  transform: scaleX(1);
+}
+
+.start-btn span {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.start-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+@keyframes actionGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(240,192,64,0); }
+  50% { box-shadow: 0 0 15px 2px rgba(240,192,64,0.25); }
+}
+
+.gate-notice {
+  font-size: 0.7rem;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+#story {
+  max-width:740px;
+  margin:0 auto;
+  padding:5rem 1.5rem 8rem;
+  display: none;
+  flex-direction:column;
+  gap:1.8rem;
+  position:relative;
+  z-index:1;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+#story.visible {
+  display: flex;
+  opacity: 1;
+}
+
+.part-header { text-align:center; padding-bottom:1rem; }
+.part-tag {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.55rem; letter-spacing:0.45em;
+  color:var(--purple); text-transform:uppercase;
+  margin-bottom:0.6rem;
+}
+.part-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.6rem,5vw,2.8rem);
+  letter-spacing:0.08em;
+  background:linear-gradient(180deg,#fff5cc 0%,#f0c040 40%,#c9922a 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  filter:drop-shadow(0 2px 8px rgba(240,192,64,0.2));
+  line-height:1;
+}
+
+.divider {
+  display:flex; align-items:center; gap:0.8rem;
+}
+.divider .dl, .divider .dr { flex:1; height:1px; background:var(--gold-line); }
+.divider .dc {
+  font-size:0.58rem; color:var(--gold);
+  letter-spacing:0.25em; white-space:nowrap;
+  font-family:'Orbitron',sans-serif;
+}
+.divider.purple .dl, .divider.purple .dr { background:var(--purple-line); }
+.divider.purple .dc { color:var(--purple); }
+
+.scene-headline {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.2rem,4vw,1.8rem);
+  letter-spacing:0.1em;
+  background:linear-gradient(90deg,#f0c040,#c9922a);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  border-left:3px solid var(--gold);
+  padding-left:0.8rem;
+  margin-top:0.5rem;
+}
+
+p {
+  font-size:clamp(0.95rem,2.2vw,1.1rem);
+  line-height:2;
+  color:var(--muted);
+  font-weight:400;
+}
+p b, p strong { color:var(--text); font-weight:700; }
+
+.dialogue {
+  border-left:2px solid var(--purple-line);
+  padding:0.7rem 1rem;
+  background:var(--purple-dim);
+  border-radius:0 2px 2px 0;
+}
+.dialogue .speaker {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.6rem;
+  letter-spacing:0.25em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+.dialogue p {
+  font-size:clamp(0.92rem,2.1vw,1.05rem);
+  color:var(--text);
+  font-style:italic;
+  margin:0;
+}
+
+.img-card {
+  width:100%;
+  border-radius:3px;
+  overflow:hidden;
+  background:#0d0b14;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 12px 32px rgba(0,0,0,0.5), 0 24px 56px rgba(124,77,255,0.1);
+  border:1px solid var(--gold-line);
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+}
+.img-card:hover {
+  transform:translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7), 0 20px 48px rgba(0,0,0,0.6), 0 32px 72px rgba(124,77,255,0.15);
+}
+.img-card img {
+  width:100%; height:auto; display:block;
+}
+
+.continue-wrap {
+  display:flex; justify-content:center;
+  padding-top:2.5rem;
+  flex-direction:column;
+  align-items:center;
+  gap:0.8rem;
+}
+.continue-label {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.52rem;
+  letter-spacing:0.3em;
+  color:var(--dim);
+  text-transform:uppercase;
+}
+.end-btn {
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font-family:'Orbitron',sans-serif;
+  font-size:0.72rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  padding:14px 52px;
+  cursor:pointer;
+  transition:all 0.35s ease;
+  position:relative; overflow:hidden;
+}
+.end-btn::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,var(--gold2),var(--gold));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.35s ease; z-index:0;
+}
+.end-btn:hover { color:var(--black); }
+.end-btn:hover::before { transform:scaleX(1); }
+.end-btn span { position:relative; z-index:1; }
+.end-btn { animation:goldpulse 2.5s ease infinite; }
+@keyframes goldpulse {
+  0%,100%{ box-shadow:0 0 0 0 rgba(240,192,64,0); }
+  50%    { box-shadow:0 0 0 6px rgba(240,192,64,0.12); }
+}
+
+@media(max-width:500px){
+  #story { padding:4rem 1rem 7rem; }
+  .gateway-panel { padding:2.5rem 1.5rem; }
+  .dialogue { padding:0.5rem 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Fullscreen Entry Gateway -->
+<div id="gateway">
+  <div class="gateway-panel">
+    <div class="gate-tag">🎬 Episode 18</div>
+    <div class="gate-title"><span class="gate-gradient">LOVELY Arc</span> 💦</div>
+    <div class="gate-subtitle">Part 8</div>
+    
+    <button id="start-story-btn" class="start-btn">
+      <span>
+        <svg viewBox="0 0 24 24">
+          <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+        </svg>
+        Start Story
+      </span>
+    </button>
+    
+    <div class="gate-notice">Recommended to view in Fullscreen mode</div>
+  </div>
+</div>
+
+<!-- Main Story Content -->
+<div id="story">
+
+  <div class="part-header">
+    <div class="part-tag">🎬 EPISODE 18</div>
+    <div class="part-title">Part 8</div>
+  </div>
+
+  <div class="divider">
+    <div class="dl"></div><div class="dc">✦ &nbsp; STORY CONTINUES &nbsp; ✦</div><div class="dr"></div>
+  </div>
+
+  <p>Lovely ne Jethalal ka lund apne muh se bahar nikala. Uski aankhon mein ek naughty smile thi. Woh khadi hui aur dheere-dheere apne kapde utarne lagi. Pehle usne apni tight top utari, Uski badi-badi gol-chhati bahar aa gayi. Uske baad usne skirt aur panty dono ek saath neeche utar diye.</p>
+
+  <!-- Image 1 -->
+  <div class="img-card">
+    <img src="https://i.ibb.co/cXV6YNfx/4933734379117284359.jpg" alt="Lovely striptease">
+  </div>
+
+  <p>Ab Lovely bilkul nangi thi — uska gora sharir, tight gaand aur geeli chut sab kuch Jethalal ke saamne tha. Woh bed par let gayi, apne tangon ko faila kar aur seductive awaaz mein boli,</p>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Sahab... ab meri chut ko bhi apna muh dikhao... bahut geeli ho rahi hai..."</p>
+  </div>
+
+  <p>Jethalal ne turant uske pair pakde aur usko khinch kar apne muh ke paas le aaya. Usne apni jeebh bahar nikali aur Lovely ki chut ki upar se ek lambi chat ki. Lovely ka pura sharir ek jhatke se hil gaya.</p>
+
+  <!-- Image 2 -->
+  <div class="img-card">
+    <img src="https://i.ibb.co/HLrZVDVs/6073305617834644493.jpg" alt="Jethalal licking chut">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Aaaahhh...Sahab... haan... aur chaato..."</p>
+  </div>
+
+  <p>Jethalal ab puri tarah se pagal ho chuka tha. Usne dono haathon se Lovely ki thighs pakdi aur apna muh uski chut mein ghusa diya. Woh zor-zor se uski chut ko chaatne laga — kabhi upar se neeche, kabhi andar jeebh ghusa kar, kabhi uski clit ko chusne laga. Lovely ki chut se paani nikal raha tha aur Jethalal usko pi raha tha.</p>
+
+  <p>Lovely uske baal pakad kar uska sar aur zor se apni chut par daba rahi thi. "Uffff... bahut achha lag raha hai... aur andar jeebh daalo... haan... aise hi... main toh paagal ho jaungi..."</p>
+
+  <p>Jethalal ne apni jeebh ko andar-bahar karte hue uski chut ko chodna shuru kar diya. Kamre mein sirf Lovely ki moan aur chut chaatne ki geeli awaazein goonj rahi thi.</p>
+
+  <p>Lovely ab control nahi kar pa rahi thi. Usne Jethalal ko upar khinch liya aur boli, "Ab daal do sahab... meri chut mein apna mota lund daal do..."</p>
+
+  <!-- Image 3 -->
+  <div class="img-card">
+    <img src="https://i.ibb.co/fz3PSy4x/6073305617834644492.jpg" alt="Jethalal positioning lund">
+  </div>
+
+  <p>Jethalal ne apna lund pakda aur Lovely ki chut ke muh par ragadte hue dheere se andar dhakel diya. Ek zor ka dhakka marte hi uska pura lund Lovely ki tight chut mein sama gaya.</p>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Aaaahhhh... mar gayi... itna bada... uffff..." Lovely ne zor se chillaya.</p>
+  </div>
+  <div class="img-card">
+    <img src="https://i.ibb.co/XrYP9FFJ/6073305617834644491.jpg" alt="Jethalal positioning lund">
+  </div>
+  <p>Jethalal missionary position mein uske upar chadh gaya aur zor-zor se dhakke marne laga. Har dhakke ke saath Lovely ki chuchiyan upar-neeche hil rahi thi. Jethalal ne ek haath se uski ek chhati pakad li aur dusre haath se uski gaand ko dabochte hue tezi se chodne laga.</p>
+
+  <p><strong>Jethalal:</strong> "Kitni tight hai teri chut Lovely... bahut mazaa aa raha hai..."</p>
+
+  <p>Dono ka sharir paseene se tar ho chuka tha. Jethalal ka lund andar-bahar tezi se ja raha tha aur Lovely ke muh se sirf moan aur gaaliyan nikal rahi thi.</p>
+
+  <p>Thodi der baad Lovely ne Jethalal ko dhakka dekar neeche litaya aur boli, "Ab main upar aati hoon..."</p>
+
+  <!-- Image 4 -->
+  <div class="img-card">
+    <img src="https://i.ibb.co/xqV9pstr/6073305617834644494.jpg" alt="Lovely riding position">
+  </div>
+
+  <p>Woh uske upar chadh gayi, lekin ulta muh karke — Reverse Cowgirl position mein. Usne Jethalal ka lund pakda aur apni chut mein baith gayi. Ek hi baar mein pura lund andar chala gaya.</p>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Ohhh fuck... bahut gehraai tak ja raha hai..."</p>
+  </div>
+
+  <!-- Image 5 (GIF) -->
+  <div class="img-card">
+    <img src="https://i.ibb.co/DDfG7ZK1/IMG-2003-ezgif-com-video-to-gif-converter.gif" alt="Reverse cowgirl bounce gif">
+  </div>
+
+  <p>Lovely ne apni gaand upar-neeche karna shuru kar diya. Woh zor-zor se bounce kar rahi thi. Uski gol gaand har baar Jethalal ke lund par zor se gir rahi thi. Jethalal ne neeche se uski gaand ko dono haathon se pakad rakha tha aur upar se dhakke maar raha tha.</p>
+
+  <p>Lovely ab speed badha chuki thi. Uski gaand zor-zor se upar-neeche ho rahi thi, chut mein lund ko poora andar-bahar karte hue. Kamre mein unki thap-thap ki awaaz aur dono ki saanson ki tez awaazein goonj rahi thi.</p>
+
+  <!-- Image 6 -->
+  <div class="img-card">
+    <img src="https://i.ibb.co/N2sSsyDP/4933734379117284370.jpg" alt="Intense bounce riding">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Sahab... aur zor se... meri chut phaad do aaj... haaan... aise hi choddo mujhe..."</p>
+  </div>
+
+  <p>Jethalal uski kamar pakad kar neeche se tezi se dhakke mar raha tha. Lovely ki gaand uske muh ke saamne hil rahi thi aur woh maze se usko chod raha tha.</p>
+
+  <p>Reverse Cowgirl mein zor-zor se chudne ke baad Lovely thak kar saans chhod rahi thi. Jethalal ne usko apne upar se uthaya aur bed par seedha kar diya. Lovely samajh gayi ki ab agla round aur wild hone wala hai.</p>
+
+  <p><strong>Jethalal:</strong> "Ghutno ke bal ho jao Lovely... main peeche se chodunga tujhe aaj," Jethalal ne garam awaaz mein kaha.</p>
+
+  <!-- Image 7 -->
+  <div class="img-card">
+    <img src="https://i.ibb.co/ymLRLsHj/4933734379117284366.jpg" alt="Doggy style setup">
+  </div>
+
+  <p>Lovely ne muskurate hue bed par ghutne aur haath tika diye. Woh bilkul doggy style mein aa gayi — uski gaand upar uthi hui aur uski geeli chut aur pink asshole bilkul saaf dikhai de rahe the. Jethalal peeche khada ho gaya aur uski gaand ko dono haathon se faila kar dekha.</p>
+
+  <p><strong>Jethalal:</strong> "Waah... kitni sundar gaand hai teri... aur yeh chhota sa hole bhi bilkul tight lag raha hai," usne kaha aur apni ungli se uske asshole par halka sa touch kiya.</p>
+
+  <!-- Image 8 -->
+  <div class="img-card">
+    <img src="https://i.ibb.co/v47MxVqv/4933734379117284369.jpg" alt="Jethalal touching gaand">
+  </div>
+
+  <p>Lovely ka sharir ek current ki tarah hil gaya. "Sahab... wahan mat chhuo... sharma aa rahi hai..." lekin uski awaaz mein excitement zyada tha.</p>
+
+  <p>Jethalal ne apna mota lund pakda aur pehle uski chut par ragda. Phir ek zor ka dhakka mara aur pura lund ek hi baar mein andar chala gaya.</p>
+
+  <!-- Image 9 -->
+  <div class="img-card">
+    <img src="https://i.ibb.co/y7JcpFt/4933734379117284372.jpg" alt="Deep doggy penetration">
+  </div>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Aaaahhhhh... fuck... bahut gehraai tak chala gaya... zor se choddo mujhe Jethaji!"</p>
+  </div>
+
+  <p>Jethalal ne uski kamar pakdi aur tezi se dhakke marne laga. Har dhakke ke saath Lovely ki gaand zor se hil rahi thi. Thap-thap-thap ki awaaz kamre mein goonj rahi thi. Usne ek haath se uski gaand ko thapki maari aur dusre haath se uske baal pakad kar usko peeche khinchta hua chodne laga.</p>
+
+  <p>Ab Jethalal ne position thoda change kiya. Usne Lovely ko aur neeche dabaya taaki uski chhati bed se chipak jaye aur gaand aur upar uth jaye — Leapfrog style mein. Is position mein Lovely ki chut aur asshole dono bilkul expose ho gaye the.</p>
+
+  <p>Jethalal ne apna lund phir se uski gaand mein ghusa diya aur ab puri taakat se chodne laga. Har dhakka itna zor ka tha ki bed hil raha tha. Lovely ka muh takiye mein daba hua tha, lekin phir bhi uske muh se zor-zor ki cheekhein nikal rahi thi.</p>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Haaan... aur zor se... meri gaand phaad do... bahut mazaa aa raha hai... aaaahhh... sahab aap bahut wild ho aaj!"</p>
+  </div>
+
+  <!-- Image 10 (GIF) -->
+  <div class="img-card">
+    <img src="https://i.ibb.co/Cp29qbQ1/IMG-1995-ezgif-com-video-to-gif-converter.gif" alt="Wild pounding style gif">
+  </div>
+
+  <p>Jethalal ne uski gaand ko dono haathon se pakad kar faila diya. Ab uska lund andar-bahar bahut tezi se ja raha tha. Kabhi woh ruk kar uski gaand mein gehraai tak lund ko andar daba deta, kabhi tezi se dhakke marta. Usne ek ungli se uske chut ko bhi halke-halke ragadne laga, jo Lovely ko aur pagal kar raha tha.</p>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Uffff... dono taraf se... main toh jhadne wali hoon... zor se chodo... aur zor se!"</p>
+  </div>
+
+  <p>Jethalal ka paseena uski peeth par gir raha tha. Woh ab bilkul jaanwar ban chuka tha. Uski taangein Lovely ki taangon ke saath lagi hui thi aur woh non-stop dhakke maar raha tha. Lovely ki chut sa paani nikal kar uske thighs par beh raha tha</p>
+
+  <p>Dono ka rhythm ab bahut tez ho chuka tha. Jethalal har dhakke ke saath zor se bol raha tha, "Le... le meri jaan... poora andar le... .."</p>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Haan... haan... aur andar...... main tumhari hoon aaj... aaaahhhh..."</p>
+  </div>
+
+  <p>Yeh scene aur wild hota ja raha tha. Jethalal ab bilkul wild dhakke maar raha tha, uski gaand ko thap-thap thapki de raha tha aur kabhi kabhi uske chut mein ungli bhi daal deta tha.</p>
+
+  <p>Jethalal ka rhythm ab bilkul wild ho chuka tha. Woh zor-zor se Lovely ki gaand mein dhakke maar raha tha. Lovely ki chut uske lund ko tightly pakad rahi thi.</p>
+
+  <p><strong>Jethalal:</strong> "Lovely... main jhadne wala hoon... bahut tez aa raha hai..." Jethalal ne garam saans mein kaha.</p>
+
+  <p>Lovely ne apni gaand aur upar uthayi aur seductive awaaz mein boli,</p>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Andar hi daal do sahab... poora bhar do meri chut ko... mujhe feel karna hai aapka garam maal..."</p>
+  </div>
+
+  <p>Jethalal ne uski kamar ko tightly pakda aur last ke kuch zor-zor ke dhakke maare. Uska pura sharir tense ho gaya. Phir ek zor ka dhakka marte hue usne apna lund sabse gehraai tak andar daal diya.</p>
+
+  <p><strong>Jethalal:</strong> "Aaaahhhhh... le... le meri jaan... aaahhh!"</p>
+
+  <p>Uske lund ne zor-zor se jhadna shuru kar diya. Garam-garam cum ki jets Lovely ki chut ke andar bharne lagi. Lovely ka sharir bhi ek saath hil gaya aur woh khud bhi jhad gayi. Dono ka orgasm ek saath hua. Jethalal ne 5-6 badi jets ke baad bhi andar hi lund daba rakha tha, poora maal uski chut mein bhar diya.</p>
+
+  <p>Jhadne ke baad Jethalal ne dheere se apna lund bahar nikala. Lovely ki chut se unka mixed maal bahar nikal kar uski thighs par behne laga. Lovely thak kar bed par let gayi. Jethalal bhi uske bagal mein let gaya.</p>
+
+  <p>Dono paseene se tar the. Lovely ne apna sar Jethalal ke seene par rakh diya. Jethalal ne uske baal sehlane shuru kar diye.</p>
+
+  <div class="dialogue">
+    <div class="speaker">Lovely</div>
+    <p>"Uffffsahab... aaj toh aapne mujhe bilkul thak diya..." Lovely ne dheere se muskurate hue kaha.</p>
+  </div>
+
+  <p>Jethalal ne uske maathe par kiss kiya aur boli,</p>
+
+  <p><strong>Jethalal:</strong> "Tum bhi kam nahi thi... bahut mazaa aaya aaj. Tu bahut wild ho gayi thi."</p>
+
+  <!-- Image 11 -->
+  <div class="img-card">
+    <img src="https://i.ibb.co/B0vN85F/19f2aff4-38d3-4b63-9f6f-066c248f2197.jpg" alt="Afterplay cuddle">
+  </div>
+
+  <p>Dono ek dusre ko gale lagakar bed par let gaye. Unki saansein abhi bhi tez thi, lekin unke chehron par ek santushti bhari muskaan thi. Jethalal ne apna haath Lovely ki kamar par rakh diya aur dono aise hi shant padhe rahe, thak kar aur khush hokar.</p>
+
+  <div class="divider">
+    <div class="dl"></div><div class="dc">✦ &nbsp; TO BE CONTINUED &nbsp; ✦</div><div class="dr"></div>
+  </div>
+
+  <div class="continue-wrap">
+    <div class="continue-label">Story continues in the next part</div>
+    <button class="end-btn" onclick="goToNextPart()">
+      <span>Next Part &nbsp; →</span>
+    </button>
+  </div>
+
+</div>
+
+<script>
+  // Progress Bar tracking
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop;
+    const total = doc.scrollHeight - doc.clientHeight;
+    const pct = total > 0 ? (scrolled / total) * 100 : 0;
+    const progressFill = document.getElementById('progress-fill');
+    if (progressFill) progressFill.style.width = pct + '%';
+  });
+
+  // Next Part navigation
+  function goToNextPart() {
+    document.body.style.transition = 'opacity 0.5s ease';
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+      window.location.href = 'part9.html';
+    }, 500);
+  }
+
+  // Gateway and Fullscreen Initiation Logic
+  const startBtn = document.getElementById('start-story-btn');
+  const gateway = document.getElementById('gateway');
+  const story = document.getElementById('story');
+  const progressBar = document.getElementById('progress-bar');
+
+  startBtn.addEventListener('click', () => {
+    // Attempt Fullscreen across all major engines
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.warn("Fullscreen request rejected by system:", err);
+      });
+    } else if (document.documentElement.webkitRequestFullscreen) { /* Safari / iOS */
+      document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { /* IE11 */
+      document.documentElement.msRequestFullscreen();
+    }
+
+    // Hide the Welcome Screen overlay and make the story active
+    gateway.classList.add('fade-out');
+    progressBar.style.display = 'block';
+    story.classList.add('visible');
+    
+    window.scrollTo({ top: 0 });
+  });
+</script>
+</body>
+</html>
