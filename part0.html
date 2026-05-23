@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Rukmini Ki Chaal, Lovely Ne Machaya Dhamaal — EP 18</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Bebas+Neue&family=Creepster&display=swap');
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --black:      #060608;
+  --black2:     #0d0b14;
+  --gold:       #f0c040;
+  --gold2:      #c9922a;
+  --gold-dim:   rgba(240,192,64,0.12);
+  --gold-line:  rgba(240,192,64,0.3);
+  --purple:     #b388ff;
+  --purple2:    #7c4dff;
+  --purple-dim: rgba(179,136,255,0.1);
+  --purple-line:rgba(179,136,255,0.3);
+  --red:        #ff4444;
+  --text:       #f0ece0;
+  --muted:      rgba(240,236,224,0.6);
+  --dim:        rgba(240,236,224,0.28);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* scanline styling */
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px
+  );
+  pointer-events:none; z-index:9999;
+}
+
+/* ── WRAPPER ── */
+.wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 1.2rem 4rem;
+}
+
+/* ══════════════════════════════════
+   SECTION 1 — COVER + TITLE
+══════════════════════════════════ */
+#sec-cover {
+  text-align:center;
+  padding: 3rem 0 2rem;
+  position:relative;
+}
+
+/* 18+ badge */
+.badge-18 {
+  display:inline-flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:72px; height:72px;
+  border:2px solid var(--gold);
+  border-radius:50%;
+  margin: 0 auto 1.5rem;
+  background: var(--gold-dim);
+  position:relative;
+}
+.badge-18::before {
+  content:'';
+  position:absolute; inset:-6px;
+  border-radius:50%;
+  border:1px solid rgba(240,192,64,0.2);
+}
+.badge-18 .badge-num {
+  font-family:'Orbitron',sans-serif;
+  font-size:1.3rem;
+  font-weight:900;
+  color:var(--gold);
+  line-height:1;
+}
+.badge-18 .badge-txt {
+  font-size:0.45rem;
+  letter-spacing:0.2em;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+
+/* cover image wrapper */
+.cover-img-wrap {
+  width:100%;
+  max-width:560px;
+  margin:0 auto 1.5rem;
+  border:1px solid var(--gold-line);
+  overflow:hidden;
+  position:relative;
+}
+.cover-img-wrap img {
+  width:100%; display:block;
+  object-fit:cover;
+  image-rendering: crisp-edges;
+}
+
+.story-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.5rem,10vw,5rem);
+  letter-spacing:0.06em;
+  line-height:0.95;
+  background:linear-gradient(180deg,#fff5cc 0%,#f0c040 35%,#c9922a 70%,#7a5010 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  filter:drop-shadow(0 2px 12px rgba(240,192,64,0.25));
+  margin-bottom:0.4rem;
+}
+
+.story-ep {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.65rem;
+  letter-spacing:0.4em;
+  color:var(--purple);
+  text-transform:uppercase;
+  margin-bottom:0.3rem;
+}
+
+.story-chapter {
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(0.9rem,2.5vw,1.15rem);
+  font-weight:600;
+  color:var(--gold);
+  letter-spacing:0.12em;
+  margin-bottom:2rem;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  display:flex; align-items:center; gap:0.8rem;
+  margin: 1.8rem 0;
+}
+.divider .dl { flex:1; height:1px; background:var(--gold-line); }
+.divider .dr { flex:1; height:1px; background:var(--gold-line); }
+.divider .dc {
+  font-size:0.6rem; color:var(--gold);
+  letter-spacing:0.25em; white-space:nowrap;
+  font-family:'Orbitron',sans-serif;
+}
+.divider.purple .dl,
+.divider.purple .dr { background:var(--purple-line); }
+.divider.purple .dc { color:var(--purple); }
+
+/* ══════════════════════════════════
+   SECTION 2 — CREDITS
+══════════════════════════════════ */
+#sec-credits { padding: 0; }
+
+.sec-label {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.55rem;
+  letter-spacing:0.45em;
+  color:var(--gold);
+  text-transform:uppercase;
+  text-align:center;
+  margin-bottom:1.5rem;
+  opacity:0.7;
+}
+
+/* Main author block */
+.author-block {
+  border:1px solid var(--gold-line);
+  padding:1.5rem;
+  background:var(--gold-dim);
+  margin-bottom:1rem;
+  position:relative;
+  overflow:hidden;
+}
+.author-block::before {
+  content:'';
+  position:absolute; left:0; top:0; bottom:0;
+  width:3px;
+  background:linear-gradient(to bottom, var(--gold), var(--gold2));
+}
+
+.credit-row {
+  display:flex; align-items:center; gap:1.2rem;
+}
+.credit-logo-box {
+  width:56px; height:56px;
+  border:1px solid var(--gold-line);
+  border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.5rem;
+  background:rgba(0,0,0,0.3);
+  flex-shrink:0;
+  overflow:hidden;
+}
+.credit-meta { flex:1; }
+.credit-role-tag {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.5rem;
+  letter-spacing:0.35em;
+  color:var(--purple);
+  text-transform:uppercase;
+  margin-bottom:0.2rem;
+}
+.credit-name-big {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.5rem,5vw,2.2rem);
+  letter-spacing:0.08em;
+  background:linear-gradient(90deg,#fff5cc,#f0c040,#c9922a);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  line-height:1;
+}
+.credit-handle {
+  font-size:0.75rem;
+  color:var(--muted);
+  letter-spacing:0.1em;
+  margin-top:0.2rem;
+}
+
+/* Co-writers block */
+.cowriters-block {
+  border:1px solid var(--purple-line);
+  padding:1.5rem;
+  background:var(--purple-dim);
+  margin-bottom:1rem;
+  position:relative;
+}
+.cowriters-block::before {
+  content:'';
+  position:absolute; left:0; top:0; bottom:0;
+  width:3px;
+  background:linear-gradient(to bottom, var(--purple), var(--purple2));
+}
+.cw-sec-label {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.5rem;
+  letter-spacing:0.4em;
+  color:var(--purple);
+  margin-bottom:1rem;
+  text-transform:uppercase;
+}
+.cw-grid {
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.cw-item {
+  flex:1; min-width:140px;
+  display:flex; align-items:center; gap:0.8rem;
+}
+.cw-logo {
+  width:44px; height:44px;
+  border:1px solid var(--purple-line);
+  border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.2rem;
+  background:rgba(0,0,0,0.3);
+  flex-shrink:0;
+  overflow:hidden;
+}
+.cw-name {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1rem,4vw,1.5rem);
+  letter-spacing:0.06em;
+  background:linear-gradient(90deg,#d0b0ff,#b388ff,#7c4dff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.cw-handle {
+  font-size:0.68rem;
+  color:var(--muted);
+  letter-spacing:0.08em;
+}
+
+/* Special thanks card */
+.thanks-box {
+  border:1px solid rgba(240,192,64,0.12);
+  padding:1.2rem 1.5rem;
+  background:rgba(240,192,64,0.03);
+  font-size:0.9rem;
+  line-height:1.8;
+  color:var(--muted);
+}
+.thanks-box b { color:var(--gold); font-weight:700; }
+.thanks-box .heart { color:#ff6b6b; }
+
+/* ══════════════════════════════════
+   SECTION 3 — HOW THIS STORY WORKS
+══════════════════════════════════ */
+#sec-howto { }
+
+.howto-intro {
+  font-size:clamp(0.88rem,2.2vw,1rem);
+  line-height:1.85;
+  color:var(--muted);
+  margin-bottom:1.5rem;
+  padding:1rem 1.2rem;
+  border-left:2px solid var(--purple);
+  background:var(--purple-dim);
+}
+.howto-intro b { color:var(--text); }
+
+/* ══════════════════════════════════
+   SECTION 4 — DEVICE / TIPS
+══════════════════════════════════ */
+#sec-tips { }
+
+.tips-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0.8rem;
+  margin-bottom:1rem;
+}
+.tip-card {
+  border:1px solid rgba(240,236,224,0.08);
+  padding:1.1rem;
+  background:rgba(255,255,255,0.02);
+  display:flex;
+  gap:0.8rem;
+  align-items:flex-start;
+}
+.tip-icon { font-size:1.4rem; flex-shrink:0; margin-top:0.1rem; }
+.tip-text { font-size:0.82rem; line-height:1.7; color:var(--muted); }
+.tip-text b { color:var(--gold); display:block; margin-bottom:0.15rem;
+  font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.2em;
+  text-transform:uppercase;
+}
+
+/* ══════════════════════════════════
+   SECTION 5 — STOP / WARNING
+══════════════════════════════════ */
+#sec-warning { }
+
+.stop-header {
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin-bottom:1.2rem;
+}
+.stop-word {
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(1.8rem,6vw,3rem);
+  font-weight:900;
+  color:var(--red);
+  letter-spacing:0.05em;
+  filter:drop-shadow(0 0 12px rgba(255,68,68,0.4));
+}
+.stop-subtitle {
+  font-size:clamp(0.85rem,2vw,1rem);
+  font-weight:700;
+  color:var(--text);
+  line-height:1.4;
+  letter-spacing:0.05em;
+}
+
+.warning-box {
+  border:1px solid rgba(255,68,68,0.3);
+  padding:1.5rem;
+  background:rgba(255,68,68,0.04);
+  margin-bottom:1.2rem;
+}
+.warning-item {
+  display:flex;
+  gap:0.8rem;
+  align-items:flex-start;
+  margin-bottom:1rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid rgba(255,68,68,0.1);
+}
+.warning-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.warn-icon-sm { font-size:1.1rem; flex-shrink:0; margin-top:0.1rem; }
+.warn-text {
+  font-size:clamp(0.82rem,2vw,0.92rem);
+  line-height:1.75;
+  color:var(--muted);
+}
+.warn-text b { color:var(--red); }
+.warn-text .hl { color:var(--gold); font-weight:700; }
+.warn-text .hl-purple { color:var(--purple); font-weight:700; }
+
+/* ══════════════════════════════════
+   SECTION 6 — CHECKLIST + PROCEED
+══════════════════════════════════ */
+#sec-proceed { }
+
+.checklist-label {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.6rem;
+  letter-spacing:0.3em;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-bottom:1rem;
+}
+
+.checklist {
+  display:flex;
+  flex-direction:column;
+  gap:0.7rem;
+  margin-bottom:2rem;
+}
+.check-item {
+  display:flex;
+  align-items:flex-start;
+  gap:0.9rem;
+  cursor:pointer;
+  padding:0.8rem 1rem;
+  border:1px solid rgba(240,236,224,0.06);
+  transition:border-color 0.2s ease, background 0.2s ease;
+}
+.check-item:hover { border-color:var(--gold-line); background:var(--gold-dim); }
+.check-item input[type=checkbox] { display:none; }
+.check-label {
+  font-size:clamp(0.82rem,2vw,0.92rem);
+  line-height:1.6;
+  color:var(--muted);
+}
+.check-item.checked .check-label { color:var(--text); }
+
+/* proceed button */
+.btn-proceed {
+  width:100%;
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font-family:'Orbitron',sans-serif;
+  font-size:0.8rem;
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+  padding:18px 20px;
+  cursor:pointer;
+  transition:all 0.35s ease;
+  position:relative;
+  overflow:hidden;
+  margin-bottom:0.8rem;
+  opacity:0.5;
+  pointer-events:none;
+}
+.btn-proceed.ready {
+  opacity:1;
+  pointer-events:all;
+}
+.btn-proceed::before {
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(90deg,var(--gold2),var(--gold));
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.35s ease;
+  z-index:0;
+}
+.btn-proceed:hover { color:var(--black); }
+.btn-proceed:hover::before { transform:scaleX(1); }
+.btn-proceed span { position:relative; z-index:1; }
+
+/* status note below button */
+.proceed-note {
+  font-family: 'Orbitron', sans-serif;
+  font-size:0.65rem;
+  color:var(--dim);
+  text-align:center;
+  letter-spacing:0.1em;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+/* pulse when ready */
+.btn-proceed.ready {
+  animation: goldpulse 2.5s ease infinite;
+}
+@keyframes goldpulse {
+  0%,100% { box-shadow:0 0 0 0 rgba(240,192,64,0); }
+  50%      { box-shadow:0 0 0 6px rgba(240,192,64,0.15); }
+}
+
+/* ══════════════════════════════════
+   FOOTER LINKS
+══════════════════════════════════ */
+.footer-links {
+  text-align:center;
+  margin-top:2rem;
+  padding-top:1.5rem;
+  border-top:1px solid rgba(240,236,224,0.06);
+}
+.footer-links p {
+  font-size:0.72rem;
+  color:var(--dim);
+  letter-spacing:0.15em;
+  margin-bottom:0.8rem;
+}
+.footer-links a {
+  color:var(--purple);
+  text-decoration:none;
+  font-family:'Orbitron',sans-serif;
+  font-size:0.6rem;
+  letter-spacing:0.2em;
+  transition:color 0.2s ease;
+}
+.footer-links a:hover { color:var(--gold); }
+
+/* ══════════════════════════════════
+   FULLSCREEN GATE OVERLAY
+══════════════════════════════════ */
+#fs-gate {
+  position:fixed; inset:0;
+  background:var(--black);
+  z-index:500;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:1.2rem;
+  padding:2rem;
+  text-align:center;
+}
+#fs-gate .gi { font-size:3rem; }
+#fs-gate h2 {
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(0.9rem,3vw,1.1rem);
+  color:var(--gold);
+  letter-spacing:0.15em;
+}
+#fs-gate p {
+  font-size:0.85rem;
+  color:var(--muted);
+  max-width:380px;
+  line-height:1.7;
+}
+.btn-gate {
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font-family:'Orbitron',sans-serif;
+  font-size:0.7rem;
+  letter-spacing:0.25em;
+  padding:14px 40px;
+  cursor:pointer;
+  transition:all 0.3s ease;
+}
+.btn-gate:hover { background:var(--gold); color:var(--black); }
+
+/* ── MOBILE RESPONSIVENESS ── */
+@media(max-width:500px) {
+  .cw-grid { flex-direction:column; }
+  .parts-grid { grid-template-columns:1fr 1fr; }
+  .tips-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- FULLSCREEN GATE -->
+<div id="fs-gate">
+  <div class="gi">⛶</div>
+  <h2>Fullscreen Required</h2>
+  <p>Fullscreen mode is required for the best experience.<br>Please allow fullscreen to continue reading.</p>
+  <button class="btn-gate" onclick="doFS()">⛶ &nbsp; Enter Fullscreen</button>
+</div>
+
+<div class="wrap">
+
+  <!-- Cover Section -->
+  <div id="sec-cover">
+    <div class="badge-18">
+      <div class="badge-num">18</div>
+      <div class="badge-txt">+ Only</div>
+    </div>
+
+    <div class="cover-img-wrap">
+      <img src="https://i.postimg.cc/T3KbhFrY/Chat-GPT-Image-May-22-2026-03-09-22-PM.png" 
+           alt="Good Morning Gokuldham Cover">
+    </div>
+
+    <div class="story-ep">🎬 &nbsp; Episode 18 &nbsp; 🎬</div>
+    <div class="story-title">RUKMINI KI CHAAL,<br>LOVELY NE MACHAYA DHAMAAL</div>
+    <div class="story-chapter">
+      🌇 &nbsp; Ek Naya Kirdaar — Society Mein Toofan &nbsp; 🌇
+    </div>
+  </div>
+
+  <!-- Credits Section -->
+  <div id="sec-credits">
+    <div class="divider">
+      <div class="dl"></div>
+      <div class="dc">✦ &nbsp; CREDITS &nbsp; ✦</div>
+      <div class="dr"></div>
+    </div>
+
+    <div class="author-block">
+      <div class="credit-row">
+        <div class="credit-logo-box">✍️</div>
+        <div class="credit-meta">
+          <div class="credit-role-tag">📝 &nbsp; Story — Written &amp; Directed By</div>
+          <a href="https://desifakes.com/TMKOC" target="_blank" style="text-decoration:none;">
+            <div class="credit-name-big">TAARAK MEHTA</div>
+          </a>
+          <div class="credit-handle">desifakes.com/TMKOC</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cowriters-block">
+      <div class="cw-sec-label">🤝 &nbsp; Creative Partners</div>
+      <div class="cw-grid">
+        <div class="cw-item">
+          <div class="cw-logo">🎨</div>
+          <div>
+            <a href="https://desifakes.com/members/%C3%9Fin%C3%B6d.9804/" target="_blank" style="text-decoration:none;">
+              <div class="cw-name">BINOD</div>
+            </a>
+            <div class="cw-handle">desifakes.com</div>
+          </div>
+        </div>
+
+        <div class="cw-item">
+          <div class="cw-logo">🎭</div>
+          <div>
+            <a href="https://desifakes.com/members/lusty-desires.449845/" target="_blank" style="text-decoration:none;">
+              <div class="cw-name">LUSTY DESIRES</div>
+            </a>
+            <div class="cw-handle">desifakes.com</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="thanks-box">
+      <p>
+        Heartfelt thanks <span class="heart">❤️</span> to everyone who helped
+        bring this story to life.<br><br>
+        Special thanks to <b>Binod</b> &amp; <b>Lusty Desires</b> — this
+        project would not have been possible without their time, effort
+        and creativity. 🙏
+      </p>
+    </div>
+  </div>
+
+  <!-- How It Works Section -->
+  <div id="sec-howto">
+    <div class="divider purple">
+      <div class="dl"></div>
+      <div class="dc">⚡ &nbsp; HOW THIS STORY WORKS &nbsp; ⚡</div>
+      <div class="dr"></div>
+    </div>
+
+    <div class="howto-intro">
+      This is a <b>scroll-based visual story</b> — text and visuals appear
+      together in each scene. Read slowly and enjoy every detail. 📖<br><br>
+      The story is split into <b>multiple parts</b>. Each part ends with a
+      button that takes you to the next one — just keep clicking through.
+      Every part loads fresh so your device stays smooth no matter how
+      long the story gets. ⚡
+    </div>
+  </div>
+
+  <!-- Reading Tips Section -->
+  <div id="sec-tips">
+    <div class="divider">
+      <div class="dl"></div>
+      <div class="dc">💡 &nbsp; READING TIPS &nbsp; 💡</div>
+      <div class="dr"></div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">⛶</div>
+        <div class="tip-text">
+          <b>Fullscreen Mode</b>
+          Always read in fullscreen for the best immersive experience.
+          Click the fullscreen icon on the top-right corner of every page,
+          or press <b>F11</b> on desktop. 🖥️
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">🎧</div>
+        <div class="tip-text">
+          <b>Use Headphones</b>
+          Background music is part of the experience.
+          Put on your headphones and turn up the volume
+          for a fully immersive reading session. 🔊
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">📱</div>
+        <div class="tip-text">
+          <b>Mobile &amp; Desktop</b>
+          Mobile users — switch to <b>Landscape Mode</b> for best visuals.
+          Desktop users — a Full HD display is recommended.
+          Zoom out if text appears too large. 🔍
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">▶️</div>
+        <div class="tip-text">
+          <b>Continue Button</b>
+          A button appears at the end of each scene.
+          Click it to load the next part — each part loads fresh
+          so the page stays fast throughout. ⚡
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warning Cards Section -->
+  <div id="sec-warning">
+    <div class="divider">
+      <div class="dl"></div>
+      <div class="dc" style="color:var(--red)">⛔ &nbsp; WARNING &nbsp; ⛔</div>
+      <div class="dr" style="background:rgba(255,68,68,0.3)"></div>
+    </div>
+
+    <div class="stop-header">
+      <div class="stop-word">⛔ STOP!</div>
+      <div class="stop-subtitle">Aage badhne se pehle<br>yeh zaroor padhe</div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-item">
+        <div class="warn-icon-sm">🔞</div>
+        <div class="warn-text">
+          Agar aap <b>18 saal se kam</b> ke hain — abhi is page ko band karein.
+          Yeh content sirf <b>baaliig (adults)</b> ke liye hai.
+        </div>
+      </div>
+
+      <div class="warning-item">
+        <div class="warn-icon-sm">📖</div>
+        <div class="warn-text">
+          Yeh ek <span class="hl">100% kalpanic (fictional) kahani</span> hai.
+          Ismein dikhaye gaye sabhi characters aur ghatnaayein poori tarah se 
+          imagination ki upaj hain. Kisi bhi asal insaan, show, ya production 
+          se inka koi sambandh nahi hai.
+        </div>
+      </div>
+
+      <div class="warning-item">
+        <div class="warn-icon-sm">🚫</div>
+        <div class="warn-text">
+          Is story ka koi bhi content <b>real life mein repeat karne ki
+          koshish na karein.</b> Yeh sirf
+          <span class="hl-purple">entertainment ke liye</span> hai.
+          Kisi bhi tarah ki illegal activity ko yeh story
+          <b>encourage nahi karti.</b>
+        </div>
+      </div>
+
+      <div class="warning-item">
+        <div class="warn-icon-sm">🔇</div>
+        <div class="warn-text">
+          Jo log sensitive hain ya <b>fiction aur reality mein fark</b>
+          nahi samajh sakte — unse request hai ki woh is blog ko
+          <span class="hl-purple">follow na karein</span> aur
+          aage na badhein.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklists and Submit Button -->
+  <div id="sec-proceed">
+    <div class="divider purple">
+      <div class="dl"></div>
+      <div class="dc">☑️ &nbsp; BEFORE YOU PROCEED &nbsp; ☑️</div>
+      <div class="dr"></div>
+    </div>
+
+    <p class="checklist-label">
+      Before proceeding, please read and Click all points below —
+    </p>
+
+    <div class="checklist" id="checklist">
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="check-label">
+          ✅ &nbsp; I understand this is a completely fictional story.
+          All characters and events are imaginary and have no connection
+          to any real person or production.
+        </div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="check-label">
+          ✅ &nbsp; I confirm I am 18 years of age or older and I am
+          accessing this content entirely of my own free will.
+        </div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="check-label">
+          ✅ &nbsp; I will respect the writers' effort and leave only
+          constructive feedback in the comments.
+        </div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="check-label">
+          ✅ &nbsp; I understand this content is strictly for
+          entertainment purposes only and must not be replicated
+          or acted upon in real life in any form.
+        </div>
+      </label>
+    </div>
+
+    <!-- ENTER BUTTON -->
+    <button class="btn-proceed" id="proceed-btn" onclick="proceedToStory()">
+      <span>✦ &nbsp; Enter The Fantasy &nbsp; ✦</span>
+    </button>
+    
+    <!-- Checklist Status Tracker Note -->
+    <div class="proceed-note" id="proceed-note">
+      Tick all 4 boxes above to unlock the link
+    </div>
+
+    <!-- Footer Community Redirect -->
+    <div class="footer-links">
+      <p>🌐 &nbsp; More stories — visit our community</p>
+      <a href="https://desifakes.com/TMKOC" target="_blank">
+        ↗ &nbsp; desifakes.com/TMKOC
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const STORY_URL = 'https://tmkocepisodesdf.github.io/tmkoc-erotic/part1.html';
+  const TOTAL_CHECKS = 4;
+  let checkedCount = 0;
+
+  function toggleCheck(el) {
+    const checkbox = el.querySelector('input[type="checkbox"]');
+    checkbox.checked = !checkbox.checked;
+    
+    el.classList.toggle('checked', checkbox.checked);
+    checkedCount = document.querySelectorAll('.check-item.checked').length;
+    
+    const btn  = document.getElementById('proceed-btn');
+    const note = document.getElementById('proceed-note');
+    
+    if (checkedCount >= TOTAL_CHECKS) {
+      btn.classList.add('ready');
+      note.textContent = '✦ All checklist requirements met — Enter The Fantasy ✦';
+      note.style.color = 'var(--gold)';
+    } else {
+      btn.classList.remove('ready');
+      note.textContent = `Tick all boxes above to unlock — ${TOTAL_CHECKS - checkedCount} remaining`;
+      note.style.color = 'var(--dim)';
+    }
+  }
+
+  function proceedToStory() {
+    if (checkedCount < TOTAL_CHECKS) return;
+    document.body.style.transition = 'opacity 0.6s ease';
+    document.body.style.opacity = '0';
+    setTimeout(() => { 
+      window.location.href = STORY_URL; 
+    }, 600);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && checkedCount >= TOTAL_CHECKS) {
+      proceedToStory();
+    }
+  });
+</script>
+
+</body>
+</html>
