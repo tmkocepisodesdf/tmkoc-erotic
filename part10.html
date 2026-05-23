@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>VIP Access — Continue Reading</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --black:        #050508;
+  --gold:         #f0c040;
+  --gold2:        #c9922a;
+  --gold-dim:     rgba(240,192,64,0.1);
+  --gold-line:    rgba(240,192,64,0.3);
+  --purple:       #b388ff;
+  --purple2:      #7c4dff;
+  --purple-dim:   rgba(179,136,255,0.08);
+  --purple-line:  rgba(179,136,255,0.25);
+  --text:         #f0ece0;
+  --muted:       rgba(240,236,224,0.6);
+  --dim:          rgba(240,236,224,0.25);
+  --red:          #ff4444;
+}
+
+html, body {
+  width:100%; min-height:100%;
+  background:var(--black);
+  color:var(--text);
+  font-family:'Rajdhani',sans-serif;
+  overflow-x:hidden;
+}
+
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(124,77,255,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(240,192,64,0.06) 0%, transparent 55%);
+  pointer-events:none; z-index:0;
+}
+
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  background:repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,0.035) 3px, rgba(0,0,0,0.035) 4px
+  );
+  pointer-events:none; z-index:9999;
+}
+
+.wrap {
+  max-width:680px;
+  margin:0 auto;
+  padding:3rem 1.2rem 5rem;
+  position:relative; z-index:1;
+}
+
+/* ── LOCK BANNER ── */
+.lock-banner {
+  border:1px solid rgba(255,68,68,0.3);
+  background:rgba(255,68,68,0.04);
+  padding:1.2rem 1.5rem;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin-bottom:2rem;
+  position:relative;
+  animation: fadeUp 0.6s ease both;
+}
+.lock-banner::before {
+  content:'';
+  position:absolute; left:0; top:0; bottom:0;
+  width:3px; background:var(--red);
+}
+.lock-icon { font-size:1.8rem; flex-shrink:0; }
+.lock-text b {
+  display:block;
+  font-family:'Orbitron',sans-serif;
+  font-size:0.62rem;
+  letter-spacing:0.2em;
+  color:var(--red);
+  text-transform:uppercase;
+  margin-bottom:0.2rem;
+}
+.lock-text span {
+  font-size:0.88rem;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  display:flex; align-items:center; gap:0.8rem;
+  margin:1.8rem 0;
+}
+.divider .dl,.divider .dr { flex:1; height:1px; background:var(--gold-line); }
+.divider .dc {
+  font-size:0.58rem; color:var(--gold);
+  letter-spacing:0.25em; white-space:nowrap;
+  font-family:'Orbitron',sans-serif;
+}
+
+/* ── VIP CARD ── */
+.vip-card {
+  border:1px solid var(--gold-line);
+  background:var(--gold-dim);
+  position:relative;
+  overflow:hidden;
+  margin-bottom:1.5rem;
+  animation: fadeUp 0.6s ease 0.15s both;
+  border-radius:4px;
+}
+.vip-card::before {
+  content:'';
+  position:absolute;
+  top:-50%; left:-50%;
+  width:200%; height:200%;
+  background:linear-gradient(
+    45deg, transparent 30%,
+    rgba(240,192,64,0.03) 50%,
+    transparent 70%
+  );
+  animation:shimmer 5s linear infinite;
+}
+@keyframes shimmer {
+  from { transform:translateX(-50%) translateY(-50%) rotate(0deg); }
+  to   { transform:translateX(-50%) translateY(-50%) rotate(360deg); }
+}
+.vip-card::after {
+  content:'';
+  position:absolute; left:0; top:0; bottom:0;
+  width:3px;
+  background:linear-gradient(to bottom, var(--gold), var(--gold2));
+}
+.vip-card-inner {
+  padding:2rem 1.8rem;
+  position:relative; z-index:1;
+}
+
+.vip-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  border:1px solid var(--gold-line);
+  padding:4px 14px;
+  margin-bottom:1.2rem;
+  background:rgba(240,192,64,0.08);
+  border-radius:2px;
+}
+.vip-badge span {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.52rem;
+  letter-spacing:0.3em;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+.vip-badge .dot {
+  width:6px; height:6px;
+  border-radius:50%;
+  background:var(--gold);
+  animation:blink 1.5s ease infinite;
+}
+@keyframes blink {
+  0%,100%{ opacity:1; } 50%{ opacity:0.3; }
+}
+
+.vip-headline {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.8rem,6vw,3rem);
+  letter-spacing:0.06em;
+  line-height:1;
+  margin-bottom:0.8rem;
+  background:linear-gradient(180deg,#fff5cc 0%,#f0c040 40%,#c9922a 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.vip-sub {
+  font-size:clamp(0.9rem,2.2vw,1.05rem);
+  color:var(--muted);
+  line-height:1.8;
+  margin-bottom:1.5rem;
+}
+.vip-sub b { color:var(--gold); }
+.vip-sub .hl { color:var(--purple); font-weight:700; }
+
+.perks {
+  display:flex;
+  flex-direction:column;
+  gap:0.6rem;
+  margin-bottom:1.8rem;
+}
+.perk {
+  display:flex;
+  align-items:flex-start;
+  gap:0.8rem;
+  font-size:clamp(0.85rem,2vw,0.95rem);
+  color:var(--muted);
+  line-height:1.5;
+}
+.perk .pi { color:var(--gold); font-size:1rem; flex-shrink:0; }
+.perk b { color:var(--text); }
+
+/* ── MAIN CTA ── */
+.btn-vip {
+  width:100%;
+  background:linear-gradient(90deg, var(--gold2), var(--gold), var(--gold2));
+  background-size:200% 100%;
+  border:none;
+  color:var(--black);
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(0.7rem,2vw,0.82rem);
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  padding:18px 20px;
+  cursor:pointer;
+  transition:all 0.4s ease;
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  font-weight:700;
+  border-radius:2px;
+  animation:btnpulse 2.5s ease infinite;
+}
+.btn-vip:hover {
+  background-position:100% 0;
+  transform:translateY(-2px);
+  box-shadow:0 8px 32px rgba(240,192,64,0.3);
+}
+@keyframes btnpulse {
+  0%,100%{ box-shadow:0 0 0 0 rgba(240,192,64,0); }
+  50%    { box-shadow:0 0 20px 4px rgba(240,192,64,0.18); }
+}
+.btn-vip-label {
+  display:block;
+  font-size:0.58rem;
+  letter-spacing:0.12em;
+  opacity:0.75;
+  margin-top:0.3rem;
+  font-family:'Rajdhani',sans-serif;
+  font-weight:600;
+}
+
+/* ── PASSCODE INPUT CARD ── */
+.code-card {
+  border:1px solid var(--purple-line);
+  background:var(--purple-dim);
+  position:relative;
+  margin-bottom:1.5rem;
+  animation: fadeUp 0.6s ease 0.22s both;
+  border-radius:4px;
+}
+.code-card::after {
+  content:'';
+  position:absolute; left:0; top:0; bottom:0;
+  width:3px;
+  background:linear-gradient(to bottom, var(--purple), var(--purple2));
+}
+.code-card-inner {
+  padding:1.6rem 1.8rem;
+  position:relative; z-index:1;
+}
+.code-tag {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.5rem;
+  letter-spacing:0.35em;
+  color:var(--purple);
+  text-transform:uppercase;
+  margin-bottom:0.5rem;
+  opacity:0.8;
+}
+.code-headline {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.3rem,3vw,1.6rem);
+  letter-spacing:0.06em;
+  background:linear-gradient(90deg,#d0b0ff,#b388ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:0.5rem;
+}
+.code-text {
+  font-size:clamp(0.82rem,2vw,0.9rem);
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:1.2rem;
+}
+.input-group {
+  display:flex;
+  gap:0.8rem;
+  flex-wrap:nowrap;
+  margin-bottom:0.8rem;
+}
+.input-group input {
+  flex:1;
+  background:rgba(0,0,0,0.5);
+  border:1px solid var(--purple-line);
+  color:var(--text);
+  padding:14px 16px;
+  font-family:'Orbitron',sans-serif;
+  font-size:0.88rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  outline:none;
+  transition:border-color 0.3s ease, box-shadow 0.3s ease;
+  border-radius:3px;
+}
+.input-group input:focus {
+  border-color:var(--purple);
+  box-shadow:0 0 10px rgba(179,136,255,0.2);
+}
+.btn-verify {
+  background:transparent;
+  border:1px solid var(--purple);
+  color:var(--purple);
+  font-family:'Orbitron',sans-serif;
+  font-size:0.75rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  padding:14px 28px;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  font-weight:700;
+  border-radius:3px;
+}
+.btn-verify:hover {
+  background:var(--purple);
+  color:var(--black);
+  box-shadow:0 0 15px rgba(179,136,255,0.45);
+}
+
+/* Custom Feedback Notification */
+.status-msg {
+  display:none;
+  padding:0.9rem 1.2rem;
+  border-radius:3px;
+  font-size:0.85rem;
+  line-height:1.5;
+  margin-top:0.8rem;
+  animation:fadeUp 0.3s ease both;
+}
+.status-msg.success {
+  display:block;
+  border:1px solid rgba(46,189,89,0.3);
+  background:rgba(46,189,89,0.06);
+  color:#2ebd59;
+}
+.status-msg.error {
+  display:block;
+  border:1px solid rgba(255,68,68,0.3);
+  background:rgba(255,68,68,0.06);
+  color:#ff5555;
+}
+
+/* ── FREE CARD ── */
+.free-card {
+  border:1px solid rgba(240,236,224,0.06);
+  background:rgba(255,255,255,0.01);
+  position:relative;
+  animation: fadeUp 0.6s ease 0.3s both;
+  margin-bottom:2rem;
+  border-radius:4px;
+}
+.free-card::after {
+  content:'';
+  position:absolute; left:0; top:0; bottom:0;
+  width:3px;
+  background:rgba(240,236,224,0.15);
+}
+.free-card-inner {
+  padding:1.4rem 1.8rem;
+  position:relative; z-index:1;
+}
+.free-tag {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.5rem;
+  letter-spacing:0.35em;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-bottom:0.5rem;
+  opacity:0.8;
+}
+.free-headline {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1rem,3vw,1.4rem);
+  letter-spacing:0.06em;
+  color:var(--text);
+  margin-bottom:0.5rem;
+}
+.free-text {
+  font-size:clamp(0.82rem,2vw,0.9rem);
+  color:var(--muted);
+  line-height:1.75;
+}
+.free-text b { color:var(--gold); }
+.free-text .warn { color:rgba(255,100,100,0.85); font-weight:700; }
+
+/* ── FOOTER ── */
+.gate-footer {
+  text-align:center;
+  animation: fadeUp 0.6s ease 0.4s both;
+}
+.gate-footer p {
+  font-size:0.7rem;
+  color:var(--dim);
+  line-height:1.7;
+  margin-bottom:0.5rem;
+}
+.gate-footer a {
+  color:var(--purple);
+  text-decoration:none;
+  font-family:'Orbitron',sans-serif;
+  font-size:0.58rem;
+  letter-spacing:0.2em;
+  transition:color 0.2s ease;
+}
+.gate-footer a:hover { color:var(--gold); }
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+@media(max-width:500px){
+  .vip-card-inner, .code-card-inner, .free-card-inner { padding:1.4rem 1rem; }
+  .input-group { flex-direction:column; gap:0.6rem; }
+  .btn-verify { width:100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- LOCK BANNER -->
+  <div class="lock-banner">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-text">
+      <b>Next Part is Locked</b>
+      <span>
+        The story continues — but the next part is exclusively
+        available to <b>VIP members</b>. Unlock it instantly below.
+      </span>
+    </div>
+  </div>
+
+  <div class="divider">
+    <div class="dl"></div>
+    <div class="dc">✦ &nbsp; UNLOCK THE STORY &nbsp; ✦</div>
+    <div class="dr"></div>
+  </div>
+
+  <!-- VIP CARD -->
+  <div class="vip-card">
+    <div class="vip-card-inner">
+
+      <div class="vip-badge">
+        <div class="dot"></div>
+        <span>⚡ Recommended</span>
+      </div>
+
+      <div class="vip-headline">GET FULL ACCESS NOW 🔥</div>
+
+      <div class="vip-sub">
+        Become a <b>VIP Member</b> and unlock
+        <span class="hl">every part of every story</span> —
+        instantly, no waiting, no limits.<br><br>
+        Read the <b>hottest, most explicit episodes</b> the moment
+        they drop. VIP members always get first access —
+        full story, full experience. 💥
+      </div>
+
+      <div class="perks">
+        <div class="perk">
+          <div class="pi">🔓</div>
+          <div><b>Instant full story access</b> — all parts, all episodes, right now</div>
+        </div>
+        <div class="perk">
+          <div class="pi">⚡</div>
+          <div><b>Early access</b> — read new episodes before they go public</div>
+        </div>
+        <div class="perk">
+          <div class="pi">📸</div>
+          <div><b>Full image &amp; video scenes</b> — uncensored, high quality</div>
+        </div>
+        <div class="perk">
+          <div class="pi">🌟</div>
+          <div><b>Support the creators</b> — keep the stories coming</div>
+        </div>
+      </div>
+
+      <a class="btn-vip"
+         href="https://tmkocepisodesdf.blogspot.com/p/vip-section.html"
+         target="_blank">
+        🔥 &nbsp; Read Full Story — Get VIP Access
+        <span class="btn-vip-label">Click to unlock all parts instantly</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── CODE MATCHING CARD ── -->
+  <div class="code-card">
+    <div class="code-card-inner">
+      <div class="code-tag">🎟️ &nbsp; Already Subscribed?</div>
+      <div class="code-headline">ENTER YOUR VIP PASSCODE</div>
+      <div class="code-text">
+        If you already hold a subscription, enter your exclusive code to unlock the locked visual chapters immediately.
+      </div>
+      
+      <div class="input-group">
+        <input type="text" id="passcode-input" maxlength="10" autocomplete="off">
+        <button class="btn-verify" onclick="validateVipPasscode()">Verify</button>
+      </div>
+
+      <!-- Native inner message block (safely avoiding alert popups) -->
+      <div id="feedback-box" class="status-msg"></div>
+    </div>
+  </div>
+
+  <!-- FREE WAIT CARD -->
+  <div class="free-card">
+    <div class="free-card-inner">
+      <div class="free-tag">⏳ &nbsp; Free Option</div>
+      <div class="free-headline">WAIT 60 DAYS — READ FOR FREE</div>
+      <div class="free-text">
+        This story will become <b>publicly free after 60 days</b>
+        from its release date.<br>
+        <span class="warn">⚠️ But why wait</span> when you can
+        read it <b>right now</b> with VIP access? 🔥
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="gate-footer">
+    <p>Visit our community for more stories —</p>
+    <a href="https://tmkocepisodesdf.blogspot.com/p/vip-section.html"
+       target="_blank">
+      ↗ &nbsp; tmkocepisodesdf.blogspot.com
+    </a>
+  </div>
+
+</div>
+
+<script>
+  function validateVipPasscode() {
+    const field = document.getElementById('passcode-input');
+    const userCode = field.value.trim().toUpperCase();
+    const feedback = document.getElementById('feedback-box');
+    
+    // Reset layout display class
+    feedback.className = "status-msg";
+    
+    if(!userCode) {
+      feedback.textContent = "⚠️ Please enter a passcode to continue.";
+      feedback.classList.add("error");
+      return;
+    }
+    
+    // Regular expression matching TMKOC-0001 through TMKOC-0050 precisely
+    const pattern = /^TMKOC-00(?:0[1-9]|[1-4]\d|50)$/;
+    
+    if (pattern.test(userCode)) {
+      feedback.textContent = "✅ Verification Successful! Access Granted. Unlocking the next scene...";
+      feedback.classList.add("success");
+      
+      // Save unlock state to local browser memory
+      localStorage.setItem('vip_unlocked_premium_access', 'active');
+      
+      // Apply smooth transition overlay and transfer to Part 4
+      setTimeout(() => {
+        document.body.style.transition = 'opacity 0.6s ease';
+        document.body.style.opacity = '0';
+        setTimeout(() => {
+          window.location.href = 'https://tmkocepisodesdf.github.io/tmkoc-erotic/part4.html';
+        }, 600);
+      }, 1500);
+      
+    } else {
+      feedback.textContent = "❌ Invalid Passcode. Please verify your VIP Subscription Code and try again.";
+      feedback.classList.add("error");
+    }
+  }
+
+  // Keyboard Event Shortcut support (Submitting on Enter key)
+  document.getElementById('passcode-input').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      validateVipPasscode();
+    }
+  });
+</script>
+
+</body>
+</html>
